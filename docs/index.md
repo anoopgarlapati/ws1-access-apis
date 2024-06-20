@@ -1,7 +1,6 @@
 ---
-#layout: page
+layout: page
 title: App Volumes API
-#permalink: /apis/app-volumes-api/
 hide:
   #- navigation
   - toc
