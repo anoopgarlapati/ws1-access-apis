@@ -21,6 +21,19 @@ theme:
   name: material
   favicon: favicon.ico
   logo: assets/images/icon-white.svg
+  admonition:
+      note: fontawesome/solid/note-sticky
+      abstract: fontawesome/solid/book
+      info: fontawesome/solid/circle-info
+      tip: fontawesome/solid/bullhorn
+      success: fontawesome/solid/check
+      question: fontawesome/solid/circle-question
+      warning: fontawesome/solid/triangle-exclamation
+      failure: fontawesome/solid/bomb
+      danger: fontawesome/solid/skull
+      bug: fontawesome/solid/robot
+      example: fontawesome/solid/flask
+      quote: fontawesome/solid/quote-left
   icon:
     repo: fontawesome/brands/github
     annotation: material/plus-circle
@@ -60,7 +73,7 @@ theme:
   - navigation.header
   - navigation.indexes
   - navigation.instant
-  #- navigation.path
+  - navigation.path
   - navigation.sections
   - navigation.tabs
   - navigation.tabs.sticky
@@ -70,12 +83,13 @@ theme:
   - search.share
   - search.suggest
   - toc.follow
-  #- toc.integrate
+  - toc.integrate
 
 # Plugins
 plugins:
   - search:
       separator: '[\s\u200b\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+      #indexing: 'full'
   - open-in-new-tab
   - markdownextradata:
       jinja_options:
@@ -89,15 +103,20 @@ plugins:
       fallback_to_build_date: true
       type: timeago
   - swagger-ui-tag
+  #- neoteroi.mkdocsoad:
+  #    use_pymdownx: true
+  - monorepo
+  - macros
 
 # Customization
 extra:
+  homepage: https://omnissa.com
   version:
     default: latest
     provider: mike
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/euc-oss/ws1-sdk-uem-android
+      link: https://github.com/euc-oss/euc-samples
     - icon: fontawesome/brands/x-twitter
       link: https://twitter.com/WorkspaceONE
     - icon: fontawesome/brands/youtube
@@ -115,7 +134,12 @@ extra:
 
 extra_css:
   - assets/stylesheets/extra.css
+  - assets/stylesheets/neoteroi-mkdocsoad.css
   - assets/stylesheets/neoteroi-mkdocs.css
+
+extra_javascript:
+  - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js
+  - javascripts/tablesort.js
 
 # Extensions
 markdown_extensions:
@@ -124,32 +148,56 @@ markdown_extensions:
   - footnotes
   - md_in_html
   - neoteroi.spantable
+  #- neoteroi.mkdocsoad
+  - neoteroi.cards
+  - pymdownx.details
   - pymdownx.critic
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-      options:
-        custom_icons:
-        - material/.icons
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
+    options:
+      custom_icons:
+      - material/.icons
   - pymdownx.inlinehilite
   - pymdownx.highlight:
-      use_pygments: true
+    use_pygments: true
   - pymdownx.snippets:
-      #check_paths: true
+    #check_paths: true
+    #base_path: !relative $docs_dir  # Path of the docs_dir
   - pymdownx.superfences:
-      custom_fences:
-      - name: mermaid
-        class: mermaid
-        format: !!python/name:pymdownx.superfences.fence_code_format
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.details
+    slugify: !!python/object/apply:pymdownx.slugs.slugify
+      kwds:
+        case: lower
+    alternate_style: true
+  - pymdownx.tasklist:
+    custom_checkbox: true
   - tables
   - toc:
-      permalink: true
+    permalink: true
 
 # Navigation
-# nav:
-#   - Home:
-
+ nav:
+  - Home: index.md
+  - Getting Started: Getting-Started.md
+  - Authentication: Authentication.md
+  - API Categories:
+    - Administration:
+      - Directories: Administration/Directories.md
+      - Identity Providers: Administration/Identity-Providers.md
+      - OAuth 2 Clients: Administration/OAuth-2-Clients.md
+      - SAML Sp Metadata: Administration/SAML-Sp-Metadata.md
+    - Authentication:
+      - OAuth 2: Authentication/OAuth-2.md
+      - OIDC: Authentication/OIDC.md
+    - SCIM 2:
+      - Groups: 'SCIM 2/Groups.md'
+      - Me: 'SCIM 2/Me.md'
+      - Users: 'SCIM 2/Users.md'
+  - Data Structures: Data-Structures.md
+  
     

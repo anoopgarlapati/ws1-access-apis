@@ -6,7 +6,7 @@ hide:
   - toc
 ---
 
-The VMware Identity Services Workspace ONE API supports the following methods to authenticate requests. Individual operations in the documentation will include their specific authentication types.
+The Omnissa Identity Services Workspace ONE API supports the following methods to authenticate requests. Individual operations in the documentation will include their specific authentication types.
 
 ## admin
 
@@ -23,3 +23,7 @@ The HTTP Basic authentication scheme. The ‘Authorization’ header is formed u
 
 **Type** : http  
 **Scheme**: basic  
+
+For example:
+`Basic QVBJQ2xpZW50OjhkOTg3djY4OTc5bm1rbHE0aA=="` 
+where client_id = `APIClient` and client_secret = `8d987v68979nmklq4h`

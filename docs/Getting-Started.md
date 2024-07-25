@@ -6,15 +6,15 @@ hide:
   - toc
 ---
 
-Welcome to the VMware Identity Services API Reference documentation. The documentation provides Getting Started information about how to set up an OAuth 2.0 client and obtain access tokens, a comprehensive API reference that includes code samples, and a list of all data structures available through the APIs.
+Welcome to the Omnissa Identity Services API Reference documentation. The documentation provides Getting Started information about how to set up an OAuth 2.0 client and obtain access tokens, a comprehensive API reference that includes code samples, and a list of all data structures available through the APIs.
 
-The VMware Identity Services APIs are designed for easy configuration and provide a seamless experience for users and applications regardless of the identity provider that you use.
+The Omnissa Identity Services APIs are designed for easy configuration and provide a seamless experience for users and applications regardless of the identity provider that you use.
 
-## About VMware Identity Services
+## About Omnissa Identity Services
 
-VMware Identity Services provides centralized user management for Workspace ONE cloud services. The service provisions users and groups from cloud identity providers such as Microsoft Entra ID or Okta to Workspace ONE services and enables federated authentication to the identity provider. VMware Identity Services is only available for new Workspace ONE tenants.
+Omnissa Identity Services provides centralized user management for Workspace ONE cloud services. The service provisions users and groups from cloud identity providers such as Microsoft Entra ID or Okta to Workspace ONE services and enables federated authentication to the identity provider. Omnissa Identity Services is only available for new Workspace ONE tenants.
 
-VMware Identity Services supports integration with the following Workspace ONE cloud services:
+Omnissa Identity Services supports integration with the following Workspace ONE cloud services:
 
 - Workspace ONE Access Cloud service
 - Workspace ONE UEM 2212 or later
@@ -25,35 +25,35 @@ Take a look at some use cases:
 - Manage identity provider configuration for federated authentication into Workspace ONE services.
 - Leverage centralized user management and authentication across Workspace ONE Access and Workspace ONE UEM.
 
-## Getting Started with VMware Identity Services REST APIs
+## Getting Started with Omnissa Identity Services REST APIs
 
-To get you started quickly, let’s dive into the necessary steps required to configure an external identity provider (IdP) with VMware Identity Services REST API for the cloud.
+To get you started quickly, let’s dive into the necessary steps required to configure an external identity provider (IdP) with Omnissa Identity Services REST API for the cloud.
 
 ### Before You Start
 
-VMware Identity Services can be integrated with the following cloud-based identity providers:
+Omnissa Identity Services can be integrated with the following cloud-based identity providers:
 
 - Microsoft Entra ID
 - Okta
 - Any generic SCIM 2.0 identity source
-- VMware Identity Services supports federated authentication against identity providers that follow OIDC (OpenID Connect) or SAML (Security Assertion Markup Language) standards.
+- Omnissa Identity Services supports federated authentication against identity providers that follow OIDC (OpenID Connect) or SAML (Security Assertion Markup Language) standards.
 
 Before you start using the API, make sure you meet the following requirements:
 
 - You have a new Workspace ONE tenant.
 - You have an administrator account in the Workspace ONE portal.
 - You can log into your tenant’s Workspace ONE portal.
-- You have completed the VMware Identity Services setup in the Workspace ONE portal under Accounts > End User Management > Get started. This includes enabling VMware Identity Services, configuring the integration with your third-party identity provider, and selecting the Workspace ONE services to use with the identity provider. For more information, see [Configuring User Provisioning and Identity Federation with VMware Identity Services](https://docs.vmware.com/en/VMware-Workspace-ONE/services/vmware_identity_services_ws1/GUID-520C5F74-AF32-47BF-996D-44B3891E7F4D.html).
+- You have completed the Omnissa Identity Services setup in the Workspace ONE portal under Accounts > End User Management > Get started. This includes enabling Omnissa Identity Services, configuring the integration with your third-party identity provider, and selecting the Workspace ONE services to use with the identity provider. For more information, see [Configuring User Provisioning and Identity Federation with Omnissa Identity Services](https://docs.omnissa.com/bundle/workspace-one-access-administration-guide/page/ManagingUsersandGroupsinWorkspaceONEAccess.html).
 
 #### Step 1 - Create OAuth 2.0 Client from the UI
 
-See [Enabling API Access for VMware Identity Services](https://docs.vmware.com/en/VMware-Workspace-ONE/services/vmware_identity_services_ws1/GUID-65FFBE68-44E3-46F2-91BA-C094F494A81E.html).
+See [Enabling API Access for Omnissa Identity Services](https://docs.omnissa.com/bundle/workspace-one-access-administration-guide/page/ManagingOAuth20ClientsinWorkspaceONEAccess.html).
 
 You will need the client ID and client secret to acquire the access token in the next step.
 
 #### Step 2 - Get access token for the OAuth 2.0 Client
 
-An access token is required for authorization of the HTTP calls to the VMware Identity Services APIs.
+An access token is required for authorization of the HTTP calls to the Omnissa Identity Services APIs.
 
 Once the OAuth 2.0 client is created, obtain an access token for the client using the client credentials flow defined in [OAuth 2.0 RFC 6749, section 4.4](https://tools.ietf.org/html/rfc6749#section-4.4).
 
@@ -76,8 +76,8 @@ Next, create an OAuth 2.0 client for the tenant with the IDP_AND_DIRECTORY_ADMIN
 
 ```sh
 curl --location --request POST 'https://{baseURL}/acs/broker/oauth2-clients' \
---header 'Content-Type: application/vnd.vmware.horizon.manager.accesscontrol.broker.oauth2client.with.rule.sets+json' \
---header 'Accept: application/vnd.vmware.horizon.manager.accesscontrol.broker.oauth2client.with.rule.sets+json' \
+--header 'Content-Type: application/vnd.Omnissa.horizon.manager.accesscontrol.broker.oauth2client.with.rule.sets+json' \
+--header 'Accept: application/vnd.Omnissa.horizon.manager.accesscontrol.broker.oauth2client.with.rule.sets+json' \
 --header 'Authorization: Bearer {access_token}' \
 --data-raw '{
 "client_id": "my-auth-grant-client1",
@@ -103,9 +103,9 @@ Use this access token for subsequent API calls. Include the token in the “Auth
 
 #### Step 5 (Optional) - Delete the OAuth 2.0 Client that you created from the UI
 
-To delete the OAuth 2.0 client, follow step 4 from [Enabling API Access for VMware Identity Services](https://docs.vmware.com/en/VMware-Workspace-ONE/services/vmware_identity_services_ws1/GUID-65FFBE68-44E3-46F2-91BA-C094F494A81E.html).
+To delete the OAuth 2.0 client, follow step 4 from [Enabling API Access for Omnissa Identity Services](https://docs.omnissa.com/bundle/workspace-one-access-administration-guide/page/ManagingOAuth20ClientsinWorkspaceONEAccess.html).
 
-Congratulations! You have set up an OAuth 2.0 client to integrate your application with VMware Identity Services.
+Congratulations! You have set up an OAuth 2.0 client to integrate your application with Omnissa Identity Services.
 
 ### Request Failures
 
@@ -131,4 +131,4 @@ For all errors, the API returns an error response body that includes the error c
 
 ### For More Information
 
-- [VMware Workspace ONE, VMware Identity Services](https://docs.vmware.com/en/VMware-Workspace-ONE/services/vmware_identity_services_ws1/GUID-520C5F74-AF32-47BF-996D-44B3891E7F4D.html). Overview of VMware Identity Services for Workspace ONE (SaaS).
+- [Omnissa Workspace ONE, Omnissa Identity Services](https://docs.omnissa.com/bundle/ws1_access_directory/page/DirectoryIntegrationwithWorkspaceONEAccess.html). Overview of Omnissa Identity Services for Workspace ONE (SaaS).

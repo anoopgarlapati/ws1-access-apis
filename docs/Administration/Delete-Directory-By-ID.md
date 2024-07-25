@@ -14,6 +14,7 @@ This endpoint is responsible for deleting a directory by ID. This includes the d
 
 <span style="color:red">DELETE</span> https://{api_host}/usergroup/broker/directories/<span style="color:purple">{id}</span>
 
+
 ### Path Parameters
 
 > String
@@ -27,7 +28,7 @@ The ID of the directory
 
 This operation uses the following authentication methods.
 
-[admin](../Authentication/02-Authentication.md#admin)
+[admin](../Authentication.md#admin)
 
 ### Response
 `202 Accepted`
@@ -46,7 +47,7 @@ The directory was not found.
 
 ### cURL Command
 
-```powershell
+```sh
 # Copy and paste this cURL command into your terminal
 curl -X DELETE -H 'Authorization: Bearer <JWT token>' https://{api_host}/usergroup/broker/directories/{id}
 ```

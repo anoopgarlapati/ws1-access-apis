@@ -6,7 +6,7 @@ hide:
   - toc
 ---
 
-VMware Identity Services API management endpoints
+Omnissa Identity Services API management endpoints
 
 ## API Categories
 
