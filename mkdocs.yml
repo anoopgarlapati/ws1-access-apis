@@ -181,7 +181,7 @@ markdown_extensions:
     permalink: true
 
 # Navigation
- nav:
+nav:
   - Home: index.md
   - Getting Started: Getting-Started.md
   - Authentication: Authentication.md
@@ -199,5 +199,5 @@ markdown_extensions:
       - Me: 'SCIM 2/Me.md'
       - Users: 'SCIM 2/Users.md'
   - Data Structures: Data-Structures.md
-  
+
     
