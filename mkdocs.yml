@@ -181,23 +181,8 @@ markdown_extensions:
     permalink: true
 
 # Navigation
-nav:
-  - Home: index.md
-  - Getting Started: Getting-Started.md
-  - Authentication: Authentication.md
-  - API Categories:
-    - Administration:
-      - Directories: Administration/Directories.md
-      - Identity Providers: Administration/Identity-Providers.md
-      - OAuth 2 Clients: Administration/OAuth-2-Clients.md
-      - SAML Sp Metadata: Administration/SAML-Sp-Metadata.md
-    - Authentication:
-      - OAuth 2: Authentication/OAuth-2.md
-      - OIDC: Authentication/OIDC.md
-    - SCIM 2:
-      - Groups: 'SCIM 2/Groups.md'
-      - Me: 'SCIM 2/Me.md'
-      - Users: 'SCIM 2/Users.md'
-  - Data Structures: Data-Structures.md
+#nav:
+#  - Home: index.md
+
 
     
