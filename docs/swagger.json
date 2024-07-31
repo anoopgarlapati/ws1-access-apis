@@ -1,4 +1,5 @@
 {
+  "swagger": "2.0",
   "info": {
     "title": "Workspace ONE Access",
     "version": "Build ede7619a82a790498f4ecca11a28bdfd547e64b8",
@@ -9,6 +10,1558 @@
     },
     "contact": {
       "url": "http://www.vmware.com/company/contact_sales.html"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "Entitlement": {
+      "type": "object",
+      "properties": {
+        "approvalMessage": {
+          "readOnly": true,
+          "type": "string",
+          "example": "Approved.",
+          "description": "The message that the external approval system sent in response to the approval request. "
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "example": "Example Web Application",
+          "description": "The catalog item name"
+        },
+        "catalogType": {
+          "enum": [
+            "SAAS",
+            "VIEW",
+            "VIEWAPP",
+            "THINAPP",
+            "APPV",
+            "XENAPP",
+            "XENAPPDELIVERYGROUP",
+            "WEBAPPLINK",
+            "DESKTONEDESKTOP",
+            "DESKTONEAPPLICATION",
+            "NATIVEAPP",
+            "ANYAPP"
+          ],
+          "type": "string",
+          "example": "SAAS",
+          "description": "The catalog item type category (used for searching catalog items)"
+        },
+        "deviceActivations": {
+          "additionalProperties": {
+            "$ref": "#/definitions/DeviceState"
+          },
+          "readOnly": true,
+          "type": "object",
+          "example": "User1-Win10",
+          "description": "List of devices on which the catalog item was activated"
+        },
+        "catalogItemId": {
+          "readOnly": true,
+          "example": "042eb1e6-61b0-451b-b35e-e9811e2459a2",
+          "type": "string",
+          "description": "The catalog item ID",
+          "format": "uuid"
+        },
+        "perDeviceActivationRequired": {
+          "readOnly": true,
+          "type": "boolean",
+          "example": false,
+          "description": "Whether to activate the application on each device individually. If set to \"true\", the activation will only apply to the current device."
+        },
+        "userId": {
+          "readOnly": true,
+          "type": "string",
+          "example": "083ed8e6-6a39-461a-b0de-e9800e245900",
+          "description": "The user ID"
+        },
+        "activationPolicy": {
+          "readOnly": true,
+          "enum": [
+            "USER_ACTIVATED",
+            "AUTOMATIC"
+          ],
+          "type": "string",
+          "example": "AUTOMATIC",
+          "description": "The type of activation the catalog item will require before showing on the user portal"
+        },
+        "catalogItemType": {
+          "readOnly": true,
+          "enum": [
+            "Saml11",
+            "Saml20",
+            "ReferredMobile",
+            "HostedMobile",
+            "VvpImage",
+            "DataModule",
+            "ViewPool",
+            "ViewApp",
+            "ThinApp",
+            "AppV",
+            "AppBlast",
+            "XenApp",
+            "XenAppDeliveryGroup",
+            "WSFed12",
+            "ExchangeConfig",
+            "VPNConfig",
+            "WifiConfig",
+            "WebAppLink",
+            "DesktoneDesktop",
+            "DesktoneApplication",
+            "NativeApp",
+            "AnyApp"
+          ],
+          "type": "string",
+          "example": "Saml20",
+          "description": "The specific catalog item type (used for application launch by Workspace ONE Access)"
+        },
+        "visible": {
+          "readOnly": true,
+          "type": "boolean",
+          "example": true,
+          "description": "Whether to display the catalog item on the user portal. If set to \"false\", the catalog item will not show on any user portal even when in activated state."
+        },
+        "internal": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "In the context of Workspace One application on a mobile device. internal = \"false\" indicates to the WS1 Application that the catalog item can be launched from outside the company VPN"
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "activationState": {
+          "readOnly": true,
+          "enum": [
+            "NOT_ACTIVATED",
+            "ACTIVATION_REQUESTED",
+            "ACTIVATION_IN_PROGRESS",
+            "ACTIVATION_FAILED",
+            "ACTIVATED",
+            "DEACTIVATION_REQUESTED",
+            "DEACTIVATION_IN_PROGRESS",
+            "DEACTIVATION_FAILED",
+            "DEACTIVATED"
+          ],
+          "type": "string",
+          "example": "ACTIVATED",
+          "description": "The catalog item activation state on the user portal. \"ACTIVATED\" means that the catalog item can be displayed on the user portal. In \"NOT_ACTIVATED\" state, the catalog item will be hidden even if the user is entitled."
+        },
+        "approvalRequired": {
+          "readOnly": true,
+          "type": "boolean",
+          "example": true,
+          "description": "Whether additional external approval is required in order to activate the catalog item."
+        },
+        "description": {
+          "readOnly": true,
+          "type": "string",
+          "example": "This is a Service Provider Sample Application.",
+          "description": "The catalog item description"
+        }
+      },
+      "description": "The entitlement object."
+    },
+    "OAuth2ClientTypeInfo": {
+      "required": [
+        "authGrantTypes",
+        "clientId",
+        "scope"
+      ],
+      "type": "object",
+      "properties": {
+        "accessTokenTTL": {
+          "format": "int32",
+          "type": "integer",
+          "description": "How long in minutes new access tokens issued to this client should live",
+          "example": 10080
+        },
+        "tokenType": {
+          "enum": [
+            "Bearer"
+          ],
+          "type": "string",
+          "example": "Bearer",
+          "description": "type of the tokens that can be requested"
+        },
+        "displayUserGrant": {
+          "default": false,
+          "type": "boolean",
+          "example": false,
+          "description": "Indicates whether to display grant page to user or not. If the value is set to false, then access is granted to clients according to org policy without asking user. Default is 'true'"
+        },
+        "strData": {
+          "type": "string",
+          "example": "1.1.1.1:8080",
+          "description": "General purpose data bucket for storing additional data for a client, such as agent ip and port"
+        },
+        "rememberAs": {
+          "type": "string",
+          "example": "my application client credentials oauth2 client",
+          "description": "A friendly name this native app/device is remembered as. Set by the admin"
+        },
+        "tokenLength": {
+          "format": "int32",
+          "type": "integer",
+          "description": "The length of the refresh token to be returned in bytes (only applicable if authGrantTypes includes \"refresh_token\"). Currently the refresh token length is constant and this value is ignored.",
+          "example": 32
+        },
+        "clientId": {
+          "type": "string",
+          "example": "my-auth-grant-client1",
+          "description": "The OAuth 2.0 Client identifier that the client uses to identify itself during the OAuth2 exchanges. The client ID must contain only alphanumeric (A-Z, a-z, 0-9), period (.), underscore (_), hyphen (-) and at sign (@) characters"
+        },
+        "internalSystemClient": {
+          "default": false,
+          "type": "boolean",
+          "example": false,
+          "description": "When set to true, OAuth2 Client will become undeletable from the Workspace ONE Access Admin UI. Default is 'false'"
+        },
+        "secret": {
+          "type": "string",
+          "example": "my-auth-grant-client1-secret",
+          "description": "The OAuth 2.0 Client secret (a string provided by an admin or a Workspace ONE Access auto-generated string). If secret string not provided, an auto-generated secret will be returned. Secret field is mandatory in Authorization Code and Client Credentials Grant flows. If the secret field is omitted or left blank in Resource Owner grant flow, no secret will be required to authenticate the client"
+        },
+        "refreshTokenTTL": {
+          "format": "int32",
+          "type": "integer",
+          "description": " How long in minutes new refresh tokens issued to this client should live (only applicable if authGrantTypes includes \"refresh_token\")",
+          "example": 525600
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "inheritanceAllowed": {
+          "default": false,
+          "type": "boolean",
+          "example": true,
+          "description": "If set to 'true' will allow the child tenants to look up clientId and secret at the root level. Default is 'false'"
+        },
+        "resourceUuid": {
+          "format": "uuid",
+          "type": "string",
+          "description": "UUID of a Workspace ONE Access application. Only users who are entitled to this application will be able to authenticate via this client.",
+          "example": "9e70bee8-3a55-4413-8418-454e7278093e"
+        },
+        "activationToken": {
+          "type": "string",
+          "example": "eyJvdGEiOiIzOkhyYUwzQ2hTWGJKd3hzSnNCdkc2cjM0eDZDRng4blFkIiwidXJsIjoiaHR0cHM6Ly9ndy1hYS5ocy50cmNpbnQuY29tLyIsInRpZCI6Imd3LWFhIn0=",
+          "description": "A one time token that can be used to securely activate an application with the client id and secret. Generating an activation token is currently not supported through this API"
+        },
+        "scope": {
+          "type": "string",
+          "example": "admin user openid profile email",
+          "description": "list of space-delimited access request scopes that are allowed by this OAuth 2.0 Client. Available scope options are: admin- Admin Level Access, user - User Level Access, profile - Access to User's profile (FirstName//LastName//Display Name//Image), email - Access to User's Email, uuid  - Access for a specific application/resource which matches this UUID"
+        },
+        "authGrantTypes": {
+          "type": "string",
+          "example": "authorization_code client_credentials password",
+          "description": "list of space-delimited Oauth 2.0 Access Grant Types that are enabled in this OAuth 2.0 Client. Available Grant types are: authorization_code client_credentials password"
+        },
+        "redirectUri": {
+          "type": "string",
+          "example": "https://*.hostname1.com/auth/* https://*.hostname2.com/auth/*",
+          "description": "A space/comma separated list of absolute URIs of application endpoints that are allowed to receive the authorization code and access token. The redirect_uri sent by the application as part of the Authorization Code Grant Oauth 2.0 flow is verified against this list. A Wildcard can be substituted for any string to skip the check for a particular URL section"
+        },
+        "refreshTokenIdleTTL": {
+          "format": "int32",
+          "type": "integer",
+          "description": " How long in minutes new refresh tokens issued to this client can idle (only applicable if authGrantTypes includes \"refresh_token\"), its value should be less than refresh token ttl value",
+          "example": 525600
+        }
+      },
+      "description": "OAuth 2.0 Client Settings"
+    },
+    "EntryString": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "SdkGroupResource": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "resourceDescriptor": {
+          "$ref": "#/definitions/ResourceDescriptor"
+        },
+        "urn:scim:schemas:extension:workspace:1.0": {
+          "description": "The group's attributes specific to the 'urn:scim:schemas:extension:workspace:1.0' schema.",
+          "$ref": "#/definitions/WorkspaceSchemaGroupAttributes"
+        },
+        "scimObject": {
+          "$ref": "#/definitions/SCIMObject"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "schemas": {
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The set of schemas that are currently contributing attributes to this group"
+        }
+      },
+      "description": "The SCIM group resource object. It extends the standard SCIM group resource, see https://tools.ietf.org/html/rfc7643"
+    },
+    "ReportsTable": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The headers for each column, as i18n messages"
+        },
+        "headerArg": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The values of any positional arguments for the header messages (max one per header)"
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "data": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "array",
+          "description": "The table rows. Each entry represents an audit event and each audit even is represented by an array of 5 elements: <br/><ul>\" +\n            \"<li>1. Formatted date and time of the event</li>\" +\n            \"<li>2. Who performed the event</li>\" +\n            \"<li>3. Simple summary of the event</li>\" +\n            \"<li>4. The object affected by the event</li>\" +\n            \"<li>5. The full details of the event as JSON serialized Action or Audit objects</li>\" +\n            \"</ul>"
+        }
+      },
+      "description": "Represents a report table response"
+    },
+    "WorkspaceSchemaGroupAttributes": {
+      "type": "object",
+      "properties": {
+        "distinguishedName": {
+          "type": "string",
+          "example": "CN=all-admin-users,CN=Users,DC=acme,DC=com",
+          "description": "The group distinguished name if available"
+        },
+        "internalGroupType": {
+          "type": "string",
+          "example": "EXTERNAL",
+          "description": "The internal group type. Available values are: 'EXTERNAL' (when the group comes from an external source), DYNAMIC (local group with custom rules), INTERNAL (local group with static rules), ALL_USERS (the default group containing all users)"
+        },
+        "domain": {
+          "type": "string",
+          "example": "acme.com",
+          "description": "The group domain: can be the domain coming from an external source as AD or a local domain like 'System Domain'"
+        },
+        "description": {
+          "type": "string",
+          "example": "The group for all admin users",
+          "description": "The group description if available"
+        },
+        "compositionRules": {
+          "type": "string",
+          "example": "{\n  \"addedUserIds\" : [ ],\n  \"excludedUserIds\" : [ ],\n  \"rule\" : {\n    \"type\" : \"internalGroup\",\n    \"groupId\" : \"53cc45f9-2e21-4fa4-ae81-32e6fb15bd91\"\n  }\n}",
+          "description": "The group composition rules version 1. Those rules are populated with relevant information when a dynamic group is created."
+        },
+        "userStoreUuid": {
+          "type": "string",
+          "example": "acme.com",
+          "description": "The group user store identifier (userStoreUuid) if available. This is deprecated and will be replaced soon by the directory identifier"
+        },
+        "parents": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array",
+          "description": "The list of group parents if available. The groups can be nested and Workspace ONE Access will return the full hierarchy"
+        },
+        "compositionRulesV2": {
+          "type": "boolean",
+          "example": false,
+          "description": "The group composition rules version 2. Those rules are populated with relevant information when a dynamic group is created.It adds support for user uuid and group uuid"
+        },
+        "email": {
+          "type": "string",
+          "example": "all-admin-users@acme.com",
+          "description": "The group email if available"
+        }
+      }
+    },
+    "EntitlementSearchCriteria": {
+      "type": "object",
+      "properties": {
+        "activationStates": {
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "NOT_ACTIVATED",
+              "ACTIVATION_REQUESTED",
+              "ACTIVATION_IN_PROGRESS",
+              "ACTIVATION_FAILED",
+              "ACTIVATED",
+              "DEACTIVATION_REQUESTED",
+              "DEACTIVATION_IN_PROGRESS",
+              "DEACTIVATION_FAILED",
+              "DEACTIVATED"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[ \"ACTIVATED\" ]",
+          "description": "Find the entitled catalog items that are in ANY of the specified activation states"
+        },
+        "catalogIds": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[\"042eb1e6-61b0-451b-b35e-e9811e2459a2\",\"032eb1d6-61b0-421b-b34e-e9811e35693b\"]",
+          "description": "Only return entitlements for ANY of these catalog item IDs"
+        },
+        "sortOrder": {
+          "enum": [
+            "NAME",
+            "AGE"
+          ],
+          "type": "string",
+          "example": "NAME",
+          "description": "Order the results by either Alphabetical order of catalog item name or by catalog item creation time (newest item first). Default sort is by creation time"
+        },
+        "catalogTypes": {
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "SAAS",
+              "VIEW",
+              "VIEWAPP",
+              "THINAPP",
+              "APPV",
+              "XENAPP",
+              "XENAPPDELIVERYGROUP",
+              "WEBAPPLINK",
+              "DESKTONEDESKTOP",
+              "DESKTONEAPPLICATION",
+              "NATIVEAPP",
+              "ANYAPP"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[ \"SAAS\",\"WEBAPPLINK\",\"NATIVEAPP\" ]",
+          "description": "Find the entitled catalog items that belong to ANY of the specified types"
+        },
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[\"Developers\", \"New Hire\", \"Finance\"]",
+          "description": "Find the entitled catalog items that belong to ALL of the specified categories"
+        },
+        "nameFilter": {
+          "type": "string",
+          "example": "mywebapp",
+          "description": "Find only entitled catalog items that have this string in their name"
+        }
+      },
+      "description": "The entitlement search body object."
+    },
+    "Entitlements": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/definitions/Entitlement"
+          },
+          "type": "array",
+          "description": "The list of items in the current page"
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        }
+      },
+      "description": "The list of entitlements."
+    },
+    "EnterpriseSchemaUserAttributes": {
+      "type": "object",
+      "properties": {
+        "manager": {
+          "description": "The user's manager if available. A complex type that optionally allows service\n      providers to represent organizational hierarchy by referencing the\n      \"id\" attribute of another User",
+          "$ref": "#/definitions/Manager"
+        },
+        "employeeNumber": {
+          "type": "string",
+          "example": "100007",
+          "description": "The user employee number if available: a string identifier, typically numeric or alphanumeric, assigned\n      to a person, typically based on order of hire or association with\n      an organization."
+        }
+      }
+    },
+    "Resources": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "startIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "itemsPerPage": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Name": {
+      "type": "object",
+      "properties": {
+        "honorificPrefix": {
+          "type": "string"
+        },
+        "middleName": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "formatted": {
+          "type": "string"
+        },
+        "givenName": {
+          "type": "string"
+        },
+        "honorificSuffix": {
+          "type": "string"
+        }
+      }
+    },
+    "ResourcesOfGroupResource": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "startIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "itemsPerPage": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Resources": {
+          "items": {
+            "$ref": "#/definitions/SdkGroupResource"
+          },
+          "type": "array",
+          "description": "The list of groups."
+        }
+      }
+    },
+    "Link": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string",
+          "format": "uri"
+        },
+        "params": {
+          "$ref": "#/definitions/LinkParams"
+        }
+      }
+    },
+    "DeviceState": {
+      "type": "object",
+      "properties": {
+        "activationState": {
+          "readOnly": true,
+          "enum": [
+            "deleted",
+            "notActivated",
+            "activated",
+            "awaitingActivation",
+            "awaitingDeactivation",
+            "deniedActivation",
+            "deniedDeactivation",
+            "awaitingDeletion"
+          ],
+          "type": "string"
+        },
+        "userDeviceId": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "message": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "requestId": {
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "locality": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "formatted": {
+          "type": "string"
+        },
+        "streetAddress": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "UserSummary": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the user"
+        },
+        "name": {
+          "description": "The user's name.",
+          "$ref": "#/definitions/Name"
+        },
+        "designation": {
+          "type": "string",
+          "description": "The user's designation/job title."
+        },
+        "photo": {
+          "type": "string",
+          "description": "URL pointing to the image of the user"
+        },
+        "scimObject": {
+          "$ref": "#/definitions/SCIMObject"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "resourceDescriptor": {
+          "$ref": "#/definitions/ResourceDescriptor"
+        }
+      },
+      "description": "The SCIM resource object that represents a summary description of a user instead of the full SCIM UserResource"
+    },
+    "SdkRoleResource": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "example": "Administrator",
+          "description": "The display name for this role"
+        },
+        "resourceDescriptor": {
+          "$ref": "#/definitions/ResourceDescriptor"
+        },
+        "urn:scim:schemas:extension:workspace:1.0": {
+          "description": "The role's attributes specific to the 'urn:scim:schemas:extension:workspace:1.0' schema.",
+          "$ref": "#/definitions/WorkspaceSchemaRoleAttributes"
+        },
+        "scimObject": {
+          "$ref": "#/definitions/SCIMObject"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array",
+          "example": "[{\"value\": \"user1\",\"type\": \"User\"},{\"value\": \"user2\",\"type\": \"User\"}]",
+          "description": "The set of users or groups that have been assigned to this role or null if none"
+        },
+        "id": {
+          "type": "string"
+        },
+        "schemas": {
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The set of schemas currently contributing attributes to this role"
+        }
+      },
+      "description": "The SCIM Role resource object. Role resource is an extension to the \"roles\" attribute which is loosely defined in the SCIM Core Schema; see https://tools.ietf.org/html/rfc7643"
+    },
+    "ResourceDescriptor": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "attributeSchemas": {
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "strictMode": {
+          "type": "boolean"
+        },
+        "scimObject": {
+          "$ref": "#/definitions/SCIMObject"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "attributes": {
+          "items": {
+            "$ref": "#/definitions/AttributeDescriptor"
+          },
+          "type": "array"
+        },
+        "schema": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "resourceDescriptor": {
+          "$ref": "#/definitions/ResourceDescriptor"
+        }
+      }
+    },
+    "OAuth2Token": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9xxxxHVcA76zjsGN2w...",
+          "description": "The requested access token. This token can now be used to call Workspace ONE Access APIs. For example, with the 'Bearer' token type, use 'Bearer &lt;this access token value&gt;' as the 'Authorization' header. The access token is a <a href=\"https://jwt.io/\">JSON web token</a> (JWT)."
+        },
+        "token_type": {
+          "type": "string",
+          "example": "Bearer",
+          "description": "The access token type. It provides the client with the information required to successfully utilize the access token to make a protected resource request. For example, the 'Bearer' token type is utilized by simply including the access token string in the request: Authorization: Bearer mF_9.B5f-4.1JqM"
+        },
+        "expires_in": {
+          "format": "int64",
+          "type": "integer",
+          "description": "The time (in seconds) this token expires. If the return value is positive, the access token is going to expire in that many seconds. If the return value is 0, the access token already expired.If the return value is -1, token state could not be determined, since the access token doesn't contain expiration value.",
+          "example": 21599
+        },
+        "refresh_token": {
+          "type": "string",
+          "example": "21599",
+          "description": "The refresh token associated with the access token, if any. This refresh token can be used to request a refresh for the associated access token."
+        },
+        "scope": {
+          "type": "string",
+          "example": "admin openid",
+          "description": "The scope of the access token issued. The value is expressed as a list of space-\n   delimited, case-sensitive strings."
+        }
+      },
+      "description": "The OAuth 2.0 token object"
+    },
+    "OAuth2ClientSummary": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "example": "admin",
+          "description": "The scope of this OAuth 2.0 client"
+        },
+        "rememberAs": {
+          "type": "string",
+          "example": "my oauth client",
+          "description": "The human friendly name of this OAuth 2.0 client"
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "mediaType": {
+          "type": "string",
+          "example": "application/vnd.vmware.horizon.manager.clientcredentialsoauth2client+json",
+          "description": "Defines the media type of this OAuth 2.0 client (Client Credentials type or Classic type)"
+        },
+        "clientId": {
+          "type": "string",
+          "example": "oauth_clientid",
+          "description": "The client identifier of this OAuth 2.0 client"
+        }
+      },
+      "description": "An OAuth 2.0 client object"
+    },
+    "SdkUserResource": {
+      "type": "object",
+      "properties": {
+        "phoneNumbers": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "addresses": {
+          "items": {
+            "$ref": "#/definitions/Address"
+          },
+          "type": "array"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta"
+        },
+        "id": {
+          "type": "string"
+        },
+        "resourceDescriptor": {
+          "$ref": "#/definitions/ResourceDescriptor"
+        },
+        "title": {
+          "type": "string"
+        },
+        "preferredLanguage": {
+          "type": "string"
+        },
+        "scimObject": {
+          "$ref": "#/definitions/SCIMObject"
+        },
+        "ims": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "entitlements": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "nickName": {
+          "type": "string"
+        },
+        "urn:scim:schemas:extension:workspace:1.0": {
+          "description": "The user's attributes specific to the 'urn:scim:schemas:extension:workspace:1.0' schema.",
+          "$ref": "#/definitions/WorkspaceSchemaUserAttributes"
+        },
+        "photos": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "groups": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "string"
+        },
+        "emails": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/Name"
+        },
+        "roles": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "urn:scim:schemas:extension:enterprise:1.0": {
+          "description": "The user's attributes specific to the 'urn:scim:schemas:extension:enterprise:1.0' schema.",
+          "$ref": "#/definitions/EnterpriseSchemaUserAttributes"
+        },
+        "profileUrl": {
+          "type": "string"
+        },
+        "timeZone": {
+          "type": "string"
+        }
+      },
+      "description": "The SCIM user resource object. It extends the standard SCIM user resource, see https://tools.ietf.org/html/rfc7643"
+    },
+    "OpenIDConfiguration": {
+      "required": [
+        "authorization_endpoint",
+        "id_token_signing_alg_values_supported",
+        "issuer",
+        "jwks_uri",
+        "response_types_supported",
+        "subject_types_supported",
+        "token_endpoint"
+      ],
+      "type": "object",
+      "properties": {
+        "userinfo_endpoint": {
+          "type": "string",
+          "example": "https://acme.vmwareidentity.com/SAAS/jersey/manager/api/userinfo",
+          "description": "URL of the user info endpoint"
+        },
+        "jwks_uri": {
+          "type": "string",
+          "example": "https://acme.vmwareidentity.com/SAAS/API/1.0/REST/auth/token?attribute=publicKey&format=jwks",
+          "description": "URL of JSON Web Key Set document"
+        },
+        "scopes_supported": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "list of the OAuth 2.0 scope values that Workspace ONE Access supports"
+        },
+        "subject_types_supported": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "list of the Subject Identifier types that Workspace ONE Access supports"
+        },
+        "token_endpoint": {
+          "type": "string",
+          "example": "https://acme.vmwareidentity.com/SAAS/auth/oauthtoken",
+          "description": "URL of the OAuth 2.0 token endpoint"
+        },
+        "id_token_signing_alg_values_supported": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "list of the JWS signing algorithms supported for the ID Token to encode the Claims in a JWT"
+        },
+        "response_types_supported": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "list of the OAuth 2.0 response_type values that Workspace ONE Access supports"
+        },
+        "claims_supported": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "list of the claims Workspace ONE Access may be able to supply values for. Note that for privacy or other reasons, this might not be an exhaustive list"
+        },
+        "authorization_endpoint": {
+          "type": "string",
+          "example": "https://acme.vmwareidentity.com/SAAS/auth/oauth2/authorize",
+          "description": "URL of the OAuth 2.0 authorization endpoint"
+        },
+        "issuer": {
+          "type": "string",
+          "example": "https://acme.vmwareidentity.com/SAAS/auth",
+          "description": "the identifier of the token's issuer. This is identical to the 'iss' Claim value in ID Tokens"
+        }
+      },
+      "description": "The OpenID configuration document as defined by the specification: http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata"
+    },
+    "EntitlementDefinitionTO": {
+      "type": "object",
+      "properties": {
+        "catalogItemId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "042eb1e6-61b0-451b-b35e-e9811e2459a2",
+          "description": "The catalog item ID"
+        },
+        "subjectType": {
+          "enum": [
+            "USERS",
+            "GROUPS"
+          ],
+          "type": "string",
+          "example": "GROUPS",
+          "description": "The entitlement subject type (USERS or GROUPS)"
+        },
+        "subjectId": {
+          "type": "string",
+          "example": "083ed8e6-6a39-461a-b0de-e9800e245900",
+          "description": "The Subject ID"
+        },
+        "activationPolicy": {
+          "enum": [
+            "AUTOMATIC",
+            "USER_ACTIVATED"
+          ],
+          "type": "string",
+          "example": "AUTOMATIC",
+          "description": "The deployment type of the application on the user portal."
+        }
+      },
+      "description": "The entitlement resource body object."
+    },
+    "ResourcesOfRoleResource": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "startIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "itemsPerPage": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Resources": {
+          "items": {
+            "$ref": "#/definitions/SdkRoleResource"
+          },
+          "type": "array",
+          "description": "The list of roles."
+        }
+      }
+    },
+    "Entry": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "object"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "ResourcesOfUserResource": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "startIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "itemsPerPage": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Resources": {
+          "items": {
+            "$ref": "#/definitions/SdkUserResource"
+          },
+          "type": "array",
+          "description": "The list of users."
+        }
+      }
+    },
+    "ChartDefinition": {
+      "required": [
+        "labels"
+      ],
+      "type": "object",
+      "properties": {
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "labels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The labels for each data point"
+        },
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The data points for the chart, array position matches label position"
+        }
+      },
+      "description": "Represents a simple report chart response"
+    },
+    "WorkspaceSchemaUserAttributes": {
+      "type": "object",
+      "properties": {
+        "distinguishedName": {
+          "type": "string",
+          "example": "CN=user1,CN=Users,DC=acme,DC=com",
+          "description": "The user distinguished name if available"
+        },
+        "domain": {
+          "type": "string",
+          "example": "acme.com",
+          "description": "The user domain: can be the domain coming from an external source as AD or a local domain like 'System Domain'"
+        },
+        "internalUserType": {
+          "type": "string",
+          "example": "PROVISIONED",
+          "description": "The user internal type. Possible values are: PROVISIONED, LOCAL, OPERATOR, SERVICE and JIT "
+        },
+        "softDeleted": {
+          "type": "boolean",
+          "description": "Is set to true if user is soft deleted. False or empty if user is not soft deleted"
+        },
+        "userPrincipalName": {
+          "type": "string",
+          "example": "user1@acme.com",
+          "description": "The user principal name if available"
+        },
+        "userStatus": {
+          "type": "string",
+          "example": "1",
+          "description": "The user status, available values are: 1 for enabled, 2 for disabled and 3 for deleted user"
+        },
+        "userStoreUuid": {
+          "type": "string",
+          "example": "19175b6d-a656-451a-9d25-b62e12d90a24",
+          "description": "The user store identifier"
+        },
+        "firstLoginUrl": {
+          "type": "string",
+          "description": "The URL to setup the user's password after the initial creation. Only available after creating the user and if the password was not set"
+        }
+      }
+    },
+    "AttributeDescriptor": {
+      "type": "object",
+      "properties": {
+        "subAttributes": {
+          "items": {
+            "$ref": "#/definitions/AttributeDescriptor"
+          },
+          "type": "array"
+        },
+        "description": {
+          "type": "string"
+        },
+        "canonicalValues": {
+          "items": {
+            "$ref": "#/definitions/EntryString"
+          },
+          "type": "array"
+        },
+        "dataType": {
+          "enum": [
+            "STRING",
+            "BOOLEAN",
+            "DATETIME",
+            "DECIMAL",
+            "INTEGER",
+            "BINARY",
+            "COMPLEX"
+          ],
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "caseExact": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        },
+        "multiValuedChildName": {
+          "type": "string"
+        },
+        "multiValued": {
+          "type": "boolean"
+        },
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "SearchRequest": {
+      "type": "object",
+      "properties": {
+        "customSchemaExtensionTypes": {
+          "type": "string"
+        },
+        "count": {
+          "format": "int32",
+          "type": "integer",
+          "description": "The number of found resources to return starting from the given startIndex. This is used for pagination. Default is 20",
+          "example": 50
+        },
+        "excludedAttributes": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "string",
+          "example": "domain co \"test.com\"",
+          "description": "The search filter. When specified, only resources matching the filter expression will be returned. The filter must comply with the SCIM specification. Only 'eq','co','sw','gt','ge','lt' and 'le' are currently supported as operators"
+        },
+        "startIndex": {
+          "format": "int32",
+          "type": "integer",
+          "description": "Offset of the first resource to return in the list of found resources. This is used for pagination. Default is 0",
+          "example": 1
+        },
+        "sortOrder": {
+          "type": "string",
+          "example": "descending",
+          "description": "The direction the resources returned should be sorted in. Allowed values are \"ascending\" and \"descending\""
+        },
+        "attributes": {
+          "type": "string",
+          "example": "distinguishedName",
+          "description": "The attributes to be returned. When specified, the returned resource will contain the minimal set of resource attributes plus the attributes or sub-attributes explicitly requested. "
+        },
+        "sortBy": {
+          "type": "string",
+          "example": "distinguishedName",
+          "description": "The attribute to use to sort the found resource"
+        }
+      },
+      "description": "The SCIM search request object. To be used in requests via POST HTTP method"
+    },
+    "EntitlementDefinition": {
+      "type": "object",
+      "properties": {
+        "catalogItemId": {
+          "readOnly": true,
+          "format": "uuid",
+          "type": "string",
+          "example": "042eb1e6-61b0-451b-b35e-e9811e2459a2",
+          "description": "The catalog item ID"
+        },
+        "subjectType": {
+          "readOnly": true,
+          "enum": [
+            "USERS",
+            "GROUPS"
+          ],
+          "type": "string",
+          "example": "GROUPS",
+          "description": "The entitlement subject type."
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "subjectId": {
+          "readOnly": true,
+          "type": "string",
+          "example": "083ed8e6-6a39-461a-b0de-e9800e245900",
+          "description": "The Subject ID"
+        },
+        "activationPolicy": {
+          "enum": [
+            "USER_ACTIVATED",
+            "AUTOMATIC"
+          ],
+          "type": "string",
+          "example": "AUTOMATIC",
+          "description": "The deployment type of the application on the user portal."
+        }
+      },
+      "description": "The entitlement resource object."
+    },
+    "SCIMObject": {
+      "type": "object",
+      "properties": {
+        "schemas": {
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "LinkParams": {
+      "type": "object"
+    },
+    "Manager": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "managerId": {
+          "type": "string"
+        }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "version": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string",
+          "format": "uri"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "OAuth2ClientSummaryList": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/definitions/OAuth2ClientSummary"
+          },
+          "type": "array",
+          "description": "The list of items in the current page"
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        }
+      },
+      "description": "The list of OAuth 2.0 clients"
+    },
+    "WorkspaceSchemaRoleAttributes": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "read-only admin with limited access to file system",
+          "description": "The description for this role"
+        }
+      }
+    },
+    "SearchCriteria": {
+      "type": "object",
+      "properties": {
+        "activationStates": {
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "NOT_ACTIVATED",
+              "ACTIVATION_REQUESTED",
+              "ACTIVATION_IN_PROGRESS",
+              "ACTIVATION_FAILED",
+              "ACTIVATED",
+              "DEACTIVATION_REQUESTED",
+              "DEACTIVATION_IN_PROGRESS",
+              "DEACTIVATION_FAILED",
+              "DEACTIVATED"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[ \"ACTIVATED\" ]",
+          "description": "Find the entitled catalog items that are in ANY of the specified activation states"
+        },
+        "catalogIds": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[\"042eb1e6-61b0-451b-b35e-e9811e2459a2\",\"032eb1d6-61b0-421b-b34e-e9811e35693b\"]",
+          "description": "Only return entitlements for ANY of these catalog item IDs"
+        },
+        "_links": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Link"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "sortOrder": {
+          "enum": [
+            "NAME",
+            "AGE"
+          ],
+          "type": "string",
+          "example": "NAME",
+          "description": "Order the results by either Alphabetical order of catalog item name or by catalog item creation time (newest item first). Default sort is by creation time"
+        },
+        "catalogTypes": {
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "SAAS",
+              "VIEW",
+              "VIEWAPP",
+              "THINAPP",
+              "APPV",
+              "XENAPP",
+              "XENAPPDELIVERYGROUP",
+              "WEBAPPLINK",
+              "DESKTONEDESKTOP",
+              "DESKTONEAPPLICATION",
+              "NATIVEAPP",
+              "ANYAPP"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[ \"SAAS\",\"WEBAPPLINK\",\"NATIVEAPP\" ]",
+          "description": "Find the entitled catalog items that belong to ANY of the specified types"
+        },
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "example": "[\"Developers\", \"New Hire\", \"Finance\"]",
+          "description": "Find the entitled catalog items that belong to ALL of the specified categories"
+        },
+        "nameFilter": {
+          "type": "string",
+          "example": "mywebapp",
+          "description": "Find only entitled catalog items that have this string in their name"
+        }
+      }
+    },
+    "OAuth2ClientActivationDetails": {
+      "type": "object",
+      "properties": {
+        "client_secret": {
+          "type": "string",
+          "example": "KVk06Qre8WQLNpMJVcNHsX5d7vHCVFf0DkxR1sDcT90dCZv",
+          "description": "The generated client secret"
+        },
+        "client_id": {
+          "type": "string",
+          "example": "MyAppTemplate@e9d80cec-4e12-4970-828d-ae4557e33174",
+          "description": "The generated client identifier"
+        }
+      },
+      "description": "The response of the mobile device activation"
     }
   },
   "paths": {
@@ -2647,9 +4200,6 @@
       }
     }
   },
-  "schemes": [
-    "https"
-  ],
   "tags": [
     {
       "name": "admin"
@@ -2664,7 +4214,6 @@
       "name": "user"
     }
   ],
-  "basePath": "/",
   "securityDefinitions": {
     "oauth2": {
       "scopes": {
@@ -2681,1554 +4230,5 @@
       "type": "basic",
       "description": "The HTTP Basic authentication scheme. The 'Authorization' header is formed using 'Basic ' + base64Encode(client_id + ':' + client_secret)"
     }
-  },
-  "host": "localhost:8080",
-  "definitions": {
-    "Entitlement": {
-      "type": "object",
-      "properties": {
-        "approvalMessage": {
-          "readOnly": true,
-          "type": "string",
-          "example": "Approved.",
-          "description": "The message that the external approval system sent in response to the approval request. "
-        },
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "example": "Example Web Application",
-          "description": "The catalog item name"
-        },
-        "catalogType": {
-          "enum": [
-            "SAAS",
-            "VIEW",
-            "VIEWAPP",
-            "THINAPP",
-            "APPV",
-            "XENAPP",
-            "XENAPPDELIVERYGROUP",
-            "WEBAPPLINK",
-            "DESKTONEDESKTOP",
-            "DESKTONEAPPLICATION",
-            "NATIVEAPP",
-            "ANYAPP"
-          ],
-          "type": "string",
-          "example": "SAAS",
-          "description": "The catalog item type category (used for searching catalog items)"
-        },
-        "deviceActivations": {
-          "additionalProperties": {
-            "$ref": "#/definitions/DeviceState"
-          },
-          "readOnly": true,
-          "type": "object",
-          "example": "User1-Win10",
-          "description": "List of devices on which the catalog item was activated"
-        },
-        "catalogItemId": {
-          "readOnly": true,
-          "example": "042eb1e6-61b0-451b-b35e-e9811e2459a2",
-          "type": "string",
-          "description": "The catalog item ID",
-          "format": "uuid"
-        },
-        "perDeviceActivationRequired": {
-          "readOnly": true,
-          "type": "boolean",
-          "example": false,
-          "description": "Whether to activate the application on each device individually. If set to \"true\", the activation will only apply to the current device."
-        },
-        "userId": {
-          "readOnly": true,
-          "type": "string",
-          "example": "083ed8e6-6a39-461a-b0de-e9800e245900",
-          "description": "The user ID"
-        },
-        "activationPolicy": {
-          "readOnly": true,
-          "enum": [
-            "USER_ACTIVATED",
-            "AUTOMATIC"
-          ],
-          "type": "string",
-          "example": "AUTOMATIC",
-          "description": "The type of activation the catalog item will require before showing on the user portal"
-        },
-        "catalogItemType": {
-          "readOnly": true,
-          "enum": [
-            "Saml11",
-            "Saml20",
-            "ReferredMobile",
-            "HostedMobile",
-            "VvpImage",
-            "DataModule",
-            "ViewPool",
-            "ViewApp",
-            "ThinApp",
-            "AppV",
-            "AppBlast",
-            "XenApp",
-            "XenAppDeliveryGroup",
-            "WSFed12",
-            "ExchangeConfig",
-            "VPNConfig",
-            "WifiConfig",
-            "WebAppLink",
-            "DesktoneDesktop",
-            "DesktoneApplication",
-            "NativeApp",
-            "AnyApp"
-          ],
-          "type": "string",
-          "example": "Saml20",
-          "description": "The specific catalog item type (used for application launch by Workspace ONE Access)"
-        },
-        "visible": {
-          "readOnly": true,
-          "type": "boolean",
-          "example": true,
-          "description": "Whether to display the catalog item on the user portal. If set to \"false\", the catalog item will not show on any user portal even when in activated state."
-        },
-        "internal": {
-          "readOnly": true,
-          "type": "boolean",
-          "description": "In the context of Workspace One application on a mobile device. internal = \"false\" indicates to the WS1 Application that the catalog item can be launched from outside the company VPN"
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "activationState": {
-          "readOnly": true,
-          "enum": [
-            "NOT_ACTIVATED",
-            "ACTIVATION_REQUESTED",
-            "ACTIVATION_IN_PROGRESS",
-            "ACTIVATION_FAILED",
-            "ACTIVATED",
-            "DEACTIVATION_REQUESTED",
-            "DEACTIVATION_IN_PROGRESS",
-            "DEACTIVATION_FAILED",
-            "DEACTIVATED"
-          ],
-          "type": "string",
-          "example": "ACTIVATED",
-          "description": "The catalog item activation state on the user portal. \"ACTIVATED\" means that the catalog item can be displayed on the user portal. In \"NOT_ACTIVATED\" state, the catalog item will be hidden even if the user is entitled."
-        },
-        "approvalRequired": {
-          "readOnly": true,
-          "type": "boolean",
-          "example": true,
-          "description": "Whether additional external approval is required in order to activate the catalog item."
-        },
-        "description": {
-          "readOnly": true,
-          "type": "string",
-          "example": "This is a Service Provider Sample Application.",
-          "description": "The catalog item description"
-        }
-      },
-      "description": "The entitlement object."
-    },
-    "OAuth2ClientTypeInfo": {
-      "required": [
-        "authGrantTypes",
-        "clientId",
-        "scope"
-      ],
-      "type": "object",
-      "properties": {
-        "accessTokenTTL": {
-          "format": "int32",
-          "type": "integer",
-          "description": "How long in minutes new access tokens issued to this client should live",
-          "example": 10080
-        },
-        "tokenType": {
-          "enum": [
-            "Bearer"
-          ],
-          "type": "string",
-          "example": "Bearer",
-          "description": "type of the tokens that can be requested"
-        },
-        "displayUserGrant": {
-          "default": false,
-          "type": "boolean",
-          "example": false,
-          "description": "Indicates whether to display grant page to user or not. If the value is set to false, then access is granted to clients according to org policy without asking user. Default is 'true'"
-        },
-        "strData": {
-          "type": "string",
-          "example": "1.1.1.1:8080",
-          "description": "General purpose data bucket for storing additional data for a client, such as agent ip and port"
-        },
-        "rememberAs": {
-          "type": "string",
-          "example": "my application client credentials oauth2 client",
-          "description": "A friendly name this native app/device is remembered as. Set by the admin"
-        },
-        "tokenLength": {
-          "format": "int32",
-          "type": "integer",
-          "description": "The length of the refresh token to be returned in bytes (only applicable if authGrantTypes includes \"refresh_token\"). Currently the refresh token length is constant and this value is ignored.",
-          "example": 32
-        },
-        "clientId": {
-          "type": "string",
-          "example": "my-auth-grant-client1",
-          "description": "The OAuth 2.0 Client identifier that the client uses to identify itself during the OAuth2 exchanges. The client ID must contain only alphanumeric (A-Z, a-z, 0-9), period (.), underscore (_), hyphen (-) and at sign (@) characters"
-        },
-        "internalSystemClient": {
-          "default": false,
-          "type": "boolean",
-          "example": false,
-          "description": "When set to true, OAuth2 Client will become undeletable from the Workspace ONE Access Admin UI. Default is 'false'"
-        },
-        "secret": {
-          "type": "string",
-          "example": "my-auth-grant-client1-secret",
-          "description": "The OAuth 2.0 Client secret (a string provided by an admin or a Workspace ONE Access auto-generated string). If secret string not provided, an auto-generated secret will be returned. Secret field is mandatory in Authorization Code and Client Credentials Grant flows. If the secret field is omitted or left blank in Resource Owner grant flow, no secret will be required to authenticate the client"
-        },
-        "refreshTokenTTL": {
-          "format": "int32",
-          "type": "integer",
-          "description": " How long in minutes new refresh tokens issued to this client should live (only applicable if authGrantTypes includes \"refresh_token\")",
-          "example": 525600
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "inheritanceAllowed": {
-          "default": false,
-          "type": "boolean",
-          "example": true,
-          "description": "If set to 'true' will allow the child tenants to look up clientId and secret at the root level. Default is 'false'"
-        },
-        "resourceUuid": {
-          "format": "uuid",
-          "type": "string",
-          "description": "UUID of a Workspace ONE Access application. Only users who are entitled to this application will be able to authenticate via this client.",
-          "example": "9e70bee8-3a55-4413-8418-454e7278093e"
-        },
-        "activationToken": {
-          "type": "string",
-          "example": "eyJvdGEiOiIzOkhyYUwzQ2hTWGJKd3hzSnNCdkc2cjM0eDZDRng4blFkIiwidXJsIjoiaHR0cHM6Ly9ndy1hYS5ocy50cmNpbnQuY29tLyIsInRpZCI6Imd3LWFhIn0=",
-          "description": "A one time token that can be used to securely activate an application with the client id and secret. Generating an activation token is currently not supported through this API"
-        },
-        "scope": {
-          "type": "string",
-          "example": "admin user openid profile email",
-          "description": "list of space-delimited access request scopes that are allowed by this OAuth 2.0 Client. Available scope options are: admin- Admin Level Access, user - User Level Access, profile - Access to User's profile (FirstName//LastName//Display Name//Image), email - Access to User's Email, uuid  - Access for a specific application/resource which matches this UUID"
-        },
-        "authGrantTypes": {
-          "type": "string",
-          "example": "authorization_code client_credentials password",
-          "description": "list of space-delimited Oauth 2.0 Access Grant Types that are enabled in this OAuth 2.0 Client. Available Grant types are: authorization_code client_credentials password"
-        },
-        "redirectUri": {
-          "type": "string",
-          "example": "https://*.hostname1.com/auth/* https://*.hostname2.com/auth/*",
-          "description": "A space/comma separated list of absolute URIs of application endpoints that are allowed to receive the authorization code and access token. The redirect_uri sent by the application as part of the Authorization Code Grant Oauth 2.0 flow is verified against this list. A Wildcard can be substituted for any string to skip the check for a particular URL section"
-        },
-        "refreshTokenIdleTTL": {
-          "format": "int32",
-          "type": "integer",
-          "description": " How long in minutes new refresh tokens issued to this client can idle (only applicable if authGrantTypes includes \"refresh_token\"), its value should be less than refresh token ttl value",
-          "example": 525600
-        }
-      },
-      "description": "OAuth 2.0 Client Settings"
-    },
-    "EntryString": {
-      "type": "object",
-      "properties": {
-        "operation": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        },
-        "primary": {
-          "type": "boolean"
-        },
-        "value": {
-          "type": "string"
-        },
-        "display": {
-          "type": "string"
-        }
-      }
-    },
-    "SdkGroupResource": {
-      "type": "object",
-      "properties": {
-        "displayName": {
-          "type": "string"
-        },
-        "resourceDescriptor": {
-          "$ref": "#/definitions/ResourceDescriptor"
-        },
-        "urn:scim:schemas:extension:workspace:1.0": {
-          "description": "The group's attributes specific to the 'urn:scim:schemas:extension:workspace:1.0' schema.",
-          "$ref": "#/definitions/WorkspaceSchemaGroupAttributes"
-        },
-        "scimObject": {
-          "$ref": "#/definitions/SCIMObject"
-        },
-        "meta": {
-          "$ref": "#/definitions/Meta"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "members": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "id": {
-          "type": "string"
-        },
-        "schemas": {
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The set of schemas that are currently contributing attributes to this group"
-        }
-      },
-      "description": "The SCIM group resource object. It extends the standard SCIM group resource, see https://tools.ietf.org/html/rfc7643"
-    },
-    "ReportsTable": {
-      "type": "object",
-      "properties": {
-        "header": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The headers for each column, as i18n messages"
-        },
-        "headerArg": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The values of any positional arguments for the header messages (max one per header)"
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "data": {
-          "items": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "type": "array",
-          "description": "The table rows. Each entry represents an audit event and each audit even is represented by an array of 5 elements: <br/><ul>\" +\n            \"<li>1. Formatted date and time of the event</li>\" +\n            \"<li>2. Who performed the event</li>\" +\n            \"<li>3. Simple summary of the event</li>\" +\n            \"<li>4. The object affected by the event</li>\" +\n            \"<li>5. The full details of the event as JSON serialized Action or Audit objects</li>\" +\n            \"</ul>"
-        }
-      },
-      "description": "Represents a report table response"
-    },
-    "WorkspaceSchemaGroupAttributes": {
-      "type": "object",
-      "properties": {
-        "distinguishedName": {
-          "type": "string",
-          "example": "CN=all-admin-users,CN=Users,DC=acme,DC=com",
-          "description": "The group distinguished name if available"
-        },
-        "internalGroupType": {
-          "type": "string",
-          "example": "EXTERNAL",
-          "description": "The internal group type. Available values are: 'EXTERNAL' (when the group comes from an external source), DYNAMIC (local group with custom rules), INTERNAL (local group with static rules), ALL_USERS (the default group containing all users)"
-        },
-        "domain": {
-          "type": "string",
-          "example": "acme.com",
-          "description": "The group domain: can be the domain coming from an external source as AD or a local domain like 'System Domain'"
-        },
-        "description": {
-          "type": "string",
-          "example": "The group for all admin users",
-          "description": "The group description if available"
-        },
-        "compositionRules": {
-          "type": "string",
-          "example": "{\n  \"addedUserIds\" : [ ],\n  \"excludedUserIds\" : [ ],\n  \"rule\" : {\n    \"type\" : \"internalGroup\",\n    \"groupId\" : \"53cc45f9-2e21-4fa4-ae81-32e6fb15bd91\"\n  }\n}",
-          "description": "The group composition rules version 1. Those rules are populated with relevant information when a dynamic group is created."
-        },
-        "userStoreUuid": {
-          "type": "string",
-          "example": "acme.com",
-          "description": "The group user store identifier (userStoreUuid) if available. This is deprecated and will be replaced soon by the directory identifier"
-        },
-        "parents": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array",
-          "description": "The list of group parents if available. The groups can be nested and Workspace ONE Access will return the full hierarchy"
-        },
-        "compositionRulesV2": {
-          "type": "boolean",
-          "example": false,
-          "description": "The group composition rules version 2. Those rules are populated with relevant information when a dynamic group is created.It adds support for user uuid and group uuid"
-        },
-        "email": {
-          "type": "string",
-          "example": "all-admin-users@acme.com",
-          "description": "The group email if available"
-        }
-      }
-    },
-    "EntitlementSearchCriteria": {
-      "type": "object",
-      "properties": {
-        "activationStates": {
-          "uniqueItems": true,
-          "items": {
-            "enum": [
-              "NOT_ACTIVATED",
-              "ACTIVATION_REQUESTED",
-              "ACTIVATION_IN_PROGRESS",
-              "ACTIVATION_FAILED",
-              "ACTIVATED",
-              "DEACTIVATION_REQUESTED",
-              "DEACTIVATION_IN_PROGRESS",
-              "DEACTIVATION_FAILED",
-              "DEACTIVATED"
-            ],
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[ \"ACTIVATED\" ]",
-          "description": "Find the entitled catalog items that are in ANY of the specified activation states"
-        },
-        "catalogIds": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[\"042eb1e6-61b0-451b-b35e-e9811e2459a2\",\"032eb1d6-61b0-421b-b34e-e9811e35693b\"]",
-          "description": "Only return entitlements for ANY of these catalog item IDs"
-        },
-        "sortOrder": {
-          "enum": [
-            "NAME",
-            "AGE"
-          ],
-          "type": "string",
-          "example": "NAME",
-          "description": "Order the results by either Alphabetical order of catalog item name or by catalog item creation time (newest item first). Default sort is by creation time"
-        },
-        "catalogTypes": {
-          "uniqueItems": true,
-          "items": {
-            "enum": [
-              "SAAS",
-              "VIEW",
-              "VIEWAPP",
-              "THINAPP",
-              "APPV",
-              "XENAPP",
-              "XENAPPDELIVERYGROUP",
-              "WEBAPPLINK",
-              "DESKTONEDESKTOP",
-              "DESKTONEAPPLICATION",
-              "NATIVEAPP",
-              "ANYAPP"
-            ],
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[ \"SAAS\",\"WEBAPPLINK\",\"NATIVEAPP\" ]",
-          "description": "Find the entitled catalog items that belong to ANY of the specified types"
-        },
-        "categories": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[\"Developers\", \"New Hire\", \"Finance\"]",
-          "description": "Find the entitled catalog items that belong to ALL of the specified categories"
-        },
-        "nameFilter": {
-          "type": "string",
-          "example": "mywebapp",
-          "description": "Find only entitled catalog items that have this string in their name"
-        }
-      },
-      "description": "The entitlement search body object."
-    },
-    "Entitlements": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "items": {
-            "$ref": "#/definitions/Entitlement"
-          },
-          "type": "array",
-          "description": "The list of items in the current page"
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        }
-      },
-      "description": "The list of entitlements."
-    },
-    "EnterpriseSchemaUserAttributes": {
-      "type": "object",
-      "properties": {
-        "manager": {
-          "description": "The user's manager if available. A complex type that optionally allows service\n      providers to represent organizational hierarchy by referencing the\n      \"id\" attribute of another User",
-          "$ref": "#/definitions/Manager"
-        },
-        "employeeNumber": {
-          "type": "string",
-          "example": "100007",
-          "description": "The user employee number if available: a string identifier, typically numeric or alphanumeric, assigned\n      to a person, typically based on order of hire or association with\n      an organization."
-        }
-      }
-    },
-    "Resources": {
-      "type": "object",
-      "properties": {
-        "totalResults": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "startIndex": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "itemsPerPage": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "Name": {
-      "type": "object",
-      "properties": {
-        "honorificPrefix": {
-          "type": "string"
-        },
-        "middleName": {
-          "type": "string"
-        },
-        "familyName": {
-          "type": "string"
-        },
-        "formatted": {
-          "type": "string"
-        },
-        "givenName": {
-          "type": "string"
-        },
-        "honorificSuffix": {
-          "type": "string"
-        }
-      }
-    },
-    "ResourcesOfGroupResource": {
-      "type": "object",
-      "properties": {
-        "totalResults": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "startIndex": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "itemsPerPage": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "Resources": {
-          "items": {
-            "$ref": "#/definitions/SdkGroupResource"
-          },
-          "type": "array",
-          "description": "The list of groups."
-        }
-      }
-    },
-    "Link": {
-      "type": "object",
-      "properties": {
-        "href": {
-          "type": "string",
-          "format": "uri"
-        },
-        "params": {
-          "$ref": "#/definitions/LinkParams"
-        }
-      }
-    },
-    "DeviceState": {
-      "type": "object",
-      "properties": {
-        "activationState": {
-          "readOnly": true,
-          "enum": [
-            "deleted",
-            "notActivated",
-            "activated",
-            "awaitingActivation",
-            "awaitingDeactivation",
-            "deniedActivation",
-            "deniedDeactivation",
-            "awaitingDeletion"
-          ],
-          "type": "string"
-        },
-        "userDeviceId": {
-          "readOnly": true,
-          "type": "string"
-        },
-        "message": {
-          "readOnly": true,
-          "type": "string"
-        },
-        "requestId": {
-          "readOnly": true,
-          "type": "string"
-        }
-      }
-    },
-    "Address": {
-      "type": "object",
-      "properties": {
-        "locality": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        },
-        "region": {
-          "type": "string"
-        },
-        "primary": {
-          "type": "boolean"
-        },
-        "formatted": {
-          "type": "string"
-        },
-        "streetAddress": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        }
-      }
-    },
-    "UserSummary": {
-      "type": "object",
-      "properties": {
-        "displayName": {
-          "type": "string",
-          "description": "The display name of the user"
-        },
-        "name": {
-          "description": "The user's name.",
-          "$ref": "#/definitions/Name"
-        },
-        "designation": {
-          "type": "string",
-          "description": "The user's designation/job title."
-        },
-        "photo": {
-          "type": "string",
-          "description": "URL pointing to the image of the user"
-        },
-        "scimObject": {
-          "$ref": "#/definitions/SCIMObject"
-        },
-        "meta": {
-          "$ref": "#/definitions/Meta"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "resourceDescriptor": {
-          "$ref": "#/definitions/ResourceDescriptor"
-        }
-      },
-      "description": "The SCIM resource object that represents a summary description of a user instead of the full SCIM UserResource"
-    },
-    "SdkRoleResource": {
-      "type": "object",
-      "properties": {
-        "displayName": {
-          "type": "string",
-          "example": "Administrator",
-          "description": "The display name for this role"
-        },
-        "resourceDescriptor": {
-          "$ref": "#/definitions/ResourceDescriptor"
-        },
-        "urn:scim:schemas:extension:workspace:1.0": {
-          "description": "The role's attributes specific to the 'urn:scim:schemas:extension:workspace:1.0' schema.",
-          "$ref": "#/definitions/WorkspaceSchemaRoleAttributes"
-        },
-        "scimObject": {
-          "$ref": "#/definitions/SCIMObject"
-        },
-        "meta": {
-          "$ref": "#/definitions/Meta"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "members": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array",
-          "example": "[{\"value\": \"user1\",\"type\": \"User\"},{\"value\": \"user2\",\"type\": \"User\"}]",
-          "description": "The set of users or groups that have been assigned to this role or null if none"
-        },
-        "id": {
-          "type": "string"
-        },
-        "schemas": {
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The set of schemas currently contributing attributes to this role"
-        }
-      },
-      "description": "The SCIM Role resource object. Role resource is an extension to the \"roles\" attribute which is loosely defined in the SCIM Core Schema; see https://tools.ietf.org/html/rfc7643"
-    },
-    "ResourceDescriptor": {
-      "type": "object",
-      "properties": {
-        "endpoint": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "attributeSchemas": {
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "strictMode": {
-          "type": "boolean"
-        },
-        "scimObject": {
-          "$ref": "#/definitions/SCIMObject"
-        },
-        "meta": {
-          "$ref": "#/definitions/Meta"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "attributes": {
-          "items": {
-            "$ref": "#/definitions/AttributeDescriptor"
-          },
-          "type": "array"
-        },
-        "schema": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "resourceDescriptor": {
-          "$ref": "#/definitions/ResourceDescriptor"
-        }
-      }
-    },
-    "OAuth2Token": {
-      "type": "object",
-      "properties": {
-        "access_token": {
-          "type": "string",
-          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9xxxxHVcA76zjsGN2w...",
-          "description": "The requested access token. This token can now be used to call Workspace ONE Access APIs. For example, with the 'Bearer' token type, use 'Bearer &lt;this access token value&gt;' as the 'Authorization' header. The access token is a <a href=\"https://jwt.io/\">JSON web token</a> (JWT)."
-        },
-        "token_type": {
-          "type": "string",
-          "example": "Bearer",
-          "description": "The access token type. It provides the client with the information required to successfully utilize the access token to make a protected resource request. For example, the 'Bearer' token type is utilized by simply including the access token string in the request: Authorization: Bearer mF_9.B5f-4.1JqM"
-        },
-        "expires_in": {
-          "format": "int64",
-          "type": "integer",
-          "description": "The time (in seconds) this token expires. If the return value is positive, the access token is going to expire in that many seconds. If the return value is 0, the access token already expired.If the return value is -1, token state could not be determined, since the access token doesn't contain expiration value.",
-          "example": 21599
-        },
-        "refresh_token": {
-          "type": "string",
-          "example": "21599",
-          "description": "The refresh token associated with the access token, if any. This refresh token can be used to request a refresh for the associated access token."
-        },
-        "scope": {
-          "type": "string",
-          "example": "admin openid",
-          "description": "The scope of the access token issued. The value is expressed as a list of space-\n   delimited, case-sensitive strings."
-        }
-      },
-      "description": "The OAuth 2.0 token object"
-    },
-    "OAuth2ClientSummary": {
-      "type": "object",
-      "properties": {
-        "scope": {
-          "type": "string",
-          "example": "admin",
-          "description": "The scope of this OAuth 2.0 client"
-        },
-        "rememberAs": {
-          "type": "string",
-          "example": "my oauth client",
-          "description": "The human friendly name of this OAuth 2.0 client"
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "mediaType": {
-          "type": "string",
-          "example": "application/vnd.vmware.horizon.manager.clientcredentialsoauth2client+json",
-          "description": "Defines the media type of this OAuth 2.0 client (Client Credentials type or Classic type)"
-        },
-        "clientId": {
-          "type": "string",
-          "example": "oauth_clientid",
-          "description": "The client identifier of this OAuth 2.0 client"
-        }
-      },
-      "description": "An OAuth 2.0 client object"
-    },
-    "SdkUserResource": {
-      "type": "object",
-      "properties": {
-        "phoneNumbers": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "addresses": {
-          "items": {
-            "$ref": "#/definitions/Address"
-          },
-          "type": "array"
-        },
-        "locale": {
-          "type": "string"
-        },
-        "userType": {
-          "type": "string"
-        },
-        "meta": {
-          "$ref": "#/definitions/Meta"
-        },
-        "id": {
-          "type": "string"
-        },
-        "resourceDescriptor": {
-          "$ref": "#/definitions/ResourceDescriptor"
-        },
-        "title": {
-          "type": "string"
-        },
-        "preferredLanguage": {
-          "type": "string"
-        },
-        "scimObject": {
-          "$ref": "#/definitions/SCIMObject"
-        },
-        "ims": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "entitlements": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "nickName": {
-          "type": "string"
-        },
-        "urn:scim:schemas:extension:workspace:1.0": {
-          "description": "The user's attributes specific to the 'urn:scim:schemas:extension:workspace:1.0' schema.",
-          "$ref": "#/definitions/WorkspaceSchemaUserAttributes"
-        },
-        "photos": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "groups": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "active": {
-          "type": "boolean"
-        },
-        "password": {
-          "type": "string"
-        },
-        "emails": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "userName": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "name": {
-          "$ref": "#/definitions/Name"
-        },
-        "roles": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "urn:scim:schemas:extension:enterprise:1.0": {
-          "description": "The user's attributes specific to the 'urn:scim:schemas:extension:enterprise:1.0' schema.",
-          "$ref": "#/definitions/EnterpriseSchemaUserAttributes"
-        },
-        "profileUrl": {
-          "type": "string"
-        },
-        "timeZone": {
-          "type": "string"
-        }
-      },
-      "description": "The SCIM user resource object. It extends the standard SCIM user resource, see https://tools.ietf.org/html/rfc7643"
-    },
-    "OpenIDConfiguration": {
-      "required": [
-        "authorization_endpoint",
-        "id_token_signing_alg_values_supported",
-        "issuer",
-        "jwks_uri",
-        "response_types_supported",
-        "subject_types_supported",
-        "token_endpoint"
-      ],
-      "type": "object",
-      "properties": {
-        "userinfo_endpoint": {
-          "type": "string",
-          "example": "https://acme.vmwareidentity.com/SAAS/jersey/manager/api/userinfo",
-          "description": "URL of the user info endpoint"
-        },
-        "jwks_uri": {
-          "type": "string",
-          "example": "https://acme.vmwareidentity.com/SAAS/API/1.0/REST/auth/token?attribute=publicKey&format=jwks",
-          "description": "URL of JSON Web Key Set document"
-        },
-        "scopes_supported": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "list of the OAuth 2.0 scope values that Workspace ONE Access supports"
-        },
-        "subject_types_supported": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "list of the Subject Identifier types that Workspace ONE Access supports"
-        },
-        "token_endpoint": {
-          "type": "string",
-          "example": "https://acme.vmwareidentity.com/SAAS/auth/oauthtoken",
-          "description": "URL of the OAuth 2.0 token endpoint"
-        },
-        "id_token_signing_alg_values_supported": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "list of the JWS signing algorithms supported for the ID Token to encode the Claims in a JWT"
-        },
-        "response_types_supported": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "list of the OAuth 2.0 response_type values that Workspace ONE Access supports"
-        },
-        "claims_supported": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "list of the claims Workspace ONE Access may be able to supply values for. Note that for privacy or other reasons, this might not be an exhaustive list"
-        },
-        "authorization_endpoint": {
-          "type": "string",
-          "example": "https://acme.vmwareidentity.com/SAAS/auth/oauth2/authorize",
-          "description": "URL of the OAuth 2.0 authorization endpoint"
-        },
-        "issuer": {
-          "type": "string",
-          "example": "https://acme.vmwareidentity.com/SAAS/auth",
-          "description": "the identifier of the token's issuer. This is identical to the 'iss' Claim value in ID Tokens"
-        }
-      },
-      "description": "The OpenID configuration document as defined by the specification: http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata"
-    },
-    "EntitlementDefinitionTO": {
-      "type": "object",
-      "properties": {
-        "catalogItemId": {
-          "format": "uuid",
-          "type": "string",
-          "example": "042eb1e6-61b0-451b-b35e-e9811e2459a2",
-          "description": "The catalog item ID"
-        },
-        "subjectType": {
-          "enum": [
-            "USERS",
-            "GROUPS"
-          ],
-          "type": "string",
-          "example": "GROUPS",
-          "description": "The entitlement subject type (USERS or GROUPS)"
-        },
-        "subjectId": {
-          "type": "string",
-          "example": "083ed8e6-6a39-461a-b0de-e9800e245900",
-          "description": "The Subject ID"
-        },
-        "activationPolicy": {
-          "enum": [
-            "AUTOMATIC",
-            "USER_ACTIVATED"
-          ],
-          "type": "string",
-          "example": "AUTOMATIC",
-          "description": "The deployment type of the application on the user portal."
-        }
-      },
-      "description": "The entitlement resource body object."
-    },
-    "ResourcesOfRoleResource": {
-      "type": "object",
-      "properties": {
-        "totalResults": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "startIndex": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "itemsPerPage": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "Resources": {
-          "items": {
-            "$ref": "#/definitions/SdkRoleResource"
-          },
-          "type": "array",
-          "description": "The list of roles."
-        }
-      }
-    },
-    "Entry": {
-      "type": "object",
-      "properties": {
-        "operation": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        },
-        "primary": {
-          "type": "boolean"
-        },
-        "value": {
-          "type": "object"
-        },
-        "display": {
-          "type": "string"
-        }
-      }
-    },
-    "ResourcesOfUserResource": {
-      "type": "object",
-      "properties": {
-        "totalResults": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "startIndex": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "itemsPerPage": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "Resources": {
-          "items": {
-            "$ref": "#/definitions/SdkUserResource"
-          },
-          "type": "array",
-          "description": "The list of users."
-        }
-      }
-    },
-    "ChartDefinition": {
-      "required": [
-        "labels"
-      ],
-      "type": "object",
-      "properties": {
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "labels": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The labels for each data point"
-        },
-        "values": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The data points for the chart, array position matches label position"
-        }
-      },
-      "description": "Represents a simple report chart response"
-    },
-    "WorkspaceSchemaUserAttributes": {
-      "type": "object",
-      "properties": {
-        "distinguishedName": {
-          "type": "string",
-          "example": "CN=user1,CN=Users,DC=acme,DC=com",
-          "description": "The user distinguished name if available"
-        },
-        "domain": {
-          "type": "string",
-          "example": "acme.com",
-          "description": "The user domain: can be the domain coming from an external source as AD or a local domain like 'System Domain'"
-        },
-        "internalUserType": {
-          "type": "string",
-          "example": "PROVISIONED",
-          "description": "The user internal type. Possible values are: PROVISIONED, LOCAL, OPERATOR, SERVICE and JIT "
-        },
-        "softDeleted": {
-          "type": "boolean",
-          "description": "Is set to true if user is soft deleted. False or empty if user is not soft deleted"
-        },
-        "userPrincipalName": {
-          "type": "string",
-          "example": "user1@acme.com",
-          "description": "The user principal name if available"
-        },
-        "userStatus": {
-          "type": "string",
-          "example": "1",
-          "description": "The user status, available values are: 1 for enabled, 2 for disabled and 3 for deleted user"
-        },
-        "userStoreUuid": {
-          "type": "string",
-          "example": "19175b6d-a656-451a-9d25-b62e12d90a24",
-          "description": "The user store identifier"
-        },
-        "firstLoginUrl": {
-          "type": "string",
-          "description": "The URL to setup the user's password after the initial creation. Only available after creating the user and if the password was not set"
-        }
-      }
-    },
-    "AttributeDescriptor": {
-      "type": "object",
-      "properties": {
-        "subAttributes": {
-          "items": {
-            "$ref": "#/definitions/AttributeDescriptor"
-          },
-          "type": "array"
-        },
-        "description": {
-          "type": "string"
-        },
-        "canonicalValues": {
-          "items": {
-            "$ref": "#/definitions/EntryString"
-          },
-          "type": "array"
-        },
-        "dataType": {
-          "enum": [
-            "STRING",
-            "BOOLEAN",
-            "DATETIME",
-            "DECIMAL",
-            "INTEGER",
-            "BINARY",
-            "COMPLEX"
-          ],
-          "type": "string"
-        },
-        "required": {
-          "type": "boolean"
-        },
-        "caseExact": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "readOnly": {
-          "type": "boolean"
-        },
-        "multiValuedChildName": {
-          "type": "string"
-        },
-        "multiValued": {
-          "type": "boolean"
-        },
-        "schema": {
-          "type": "string"
-        }
-      }
-    },
-    "SearchRequest": {
-      "type": "object",
-      "properties": {
-        "customSchemaExtensionTypes": {
-          "type": "string"
-        },
-        "count": {
-          "format": "int32",
-          "type": "integer",
-          "description": "The number of found resources to return starting from the given startIndex. This is used for pagination. Default is 20",
-          "example": 50
-        },
-        "excludedAttributes": {
-          "type": "string"
-        },
-        "filter": {
-          "type": "string",
-          "example": "domain co \"test.com\"",
-          "description": "The search filter. When specified, only resources matching the filter expression will be returned. The filter must comply with the SCIM specification. Only 'eq','co','sw','gt','ge','lt' and 'le' are currently supported as operators"
-        },
-        "startIndex": {
-          "format": "int32",
-          "type": "integer",
-          "description": "Offset of the first resource to return in the list of found resources. This is used for pagination. Default is 0",
-          "example": 1
-        },
-        "sortOrder": {
-          "type": "string",
-          "example": "descending",
-          "description": "The direction the resources returned should be sorted in. Allowed values are \"ascending\" and \"descending\""
-        },
-        "attributes": {
-          "type": "string",
-          "example": "distinguishedName",
-          "description": "The attributes to be returned. When specified, the returned resource will contain the minimal set of resource attributes plus the attributes or sub-attributes explicitly requested. "
-        },
-        "sortBy": {
-          "type": "string",
-          "example": "distinguishedName",
-          "description": "The attribute to use to sort the found resource"
-        }
-      },
-      "description": "The SCIM search request object. To be used in requests via POST HTTP method"
-    },
-    "EntitlementDefinition": {
-      "type": "object",
-      "properties": {
-        "catalogItemId": {
-          "readOnly": true,
-          "format": "uuid",
-          "type": "string",
-          "example": "042eb1e6-61b0-451b-b35e-e9811e2459a2",
-          "description": "The catalog item ID"
-        },
-        "subjectType": {
-          "readOnly": true,
-          "enum": [
-            "USERS",
-            "GROUPS"
-          ],
-          "type": "string",
-          "example": "GROUPS",
-          "description": "The entitlement subject type."
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "subjectId": {
-          "readOnly": true,
-          "type": "string",
-          "example": "083ed8e6-6a39-461a-b0de-e9800e245900",
-          "description": "The Subject ID"
-        },
-        "activationPolicy": {
-          "enum": [
-            "USER_ACTIVATED",
-            "AUTOMATIC"
-          ],
-          "type": "string",
-          "example": "AUTOMATIC",
-          "description": "The deployment type of the application on the user portal."
-        }
-      },
-      "description": "The entitlement resource object."
-    },
-    "SCIMObject": {
-      "type": "object",
-      "properties": {
-        "schemas": {
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      }
-    },
-    "LinkParams": {
-      "type": "object"
-    },
-    "Manager": {
-      "type": "object",
-      "properties": {
-        "displayName": {
-          "type": "string"
-        },
-        "managerId": {
-          "type": "string"
-        }
-      }
-    },
-    "Meta": {
-      "type": "object",
-      "properties": {
-        "lastModified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "version": {
-          "type": "string"
-        },
-        "location": {
-          "type": "string",
-          "format": "uri"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "OAuth2ClientSummaryList": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "items": {
-            "$ref": "#/definitions/OAuth2ClientSummary"
-          },
-          "type": "array",
-          "description": "The list of items in the current page"
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        }
-      },
-      "description": "The list of OAuth 2.0 clients"
-    },
-    "WorkspaceSchemaRoleAttributes": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string",
-          "example": "read-only admin with limited access to file system",
-          "description": "The description for this role"
-        }
-      }
-    },
-    "SearchCriteria": {
-      "type": "object",
-      "properties": {
-        "activationStates": {
-          "uniqueItems": true,
-          "items": {
-            "enum": [
-              "NOT_ACTIVATED",
-              "ACTIVATION_REQUESTED",
-              "ACTIVATION_IN_PROGRESS",
-              "ACTIVATION_FAILED",
-              "ACTIVATED",
-              "DEACTIVATION_REQUESTED",
-              "DEACTIVATION_IN_PROGRESS",
-              "DEACTIVATION_FAILED",
-              "DEACTIVATED"
-            ],
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[ \"ACTIVATED\" ]",
-          "description": "Find the entitled catalog items that are in ANY of the specified activation states"
-        },
-        "catalogIds": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[\"042eb1e6-61b0-451b-b35e-e9811e2459a2\",\"032eb1d6-61b0-421b-b34e-e9811e35693b\"]",
-          "description": "Only return entitlements for ANY of these catalog item IDs"
-        },
-        "_links": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Link"
-          },
-          "readOnly": true,
-          "type": "object"
-        },
-        "sortOrder": {
-          "enum": [
-            "NAME",
-            "AGE"
-          ],
-          "type": "string",
-          "example": "NAME",
-          "description": "Order the results by either Alphabetical order of catalog item name or by catalog item creation time (newest item first). Default sort is by creation time"
-        },
-        "catalogTypes": {
-          "uniqueItems": true,
-          "items": {
-            "enum": [
-              "SAAS",
-              "VIEW",
-              "VIEWAPP",
-              "THINAPP",
-              "APPV",
-              "XENAPP",
-              "XENAPPDELIVERYGROUP",
-              "WEBAPPLINK",
-              "DESKTONEDESKTOP",
-              "DESKTONEAPPLICATION",
-              "NATIVEAPP",
-              "ANYAPP"
-            ],
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[ \"SAAS\",\"WEBAPPLINK\",\"NATIVEAPP\" ]",
-          "description": "Find the entitled catalog items that belong to ANY of the specified types"
-        },
-        "categories": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "example": "[\"Developers\", \"New Hire\", \"Finance\"]",
-          "description": "Find the entitled catalog items that belong to ALL of the specified categories"
-        },
-        "nameFilter": {
-          "type": "string",
-          "example": "mywebapp",
-          "description": "Find only entitled catalog items that have this string in their name"
-        }
-      }
-    },
-    "OAuth2ClientActivationDetails": {
-      "type": "object",
-      "properties": {
-        "client_secret": {
-          "type": "string",
-          "example": "KVk06Qre8WQLNpMJVcNHsX5d7vHCVFf0DkxR1sDcT90dCZv",
-          "description": "The generated client secret"
-        },
-        "client_id": {
-          "type": "string",
-          "example": "MyAppTemplate@e9d80cec-4e12-4970-828d-ae4557e33174",
-          "description": "The generated client identifier"
-        }
-      },
-      "description": "The response of the mobile device activation"
-    }
-  },
-  "swagger": "2.0"
+  }
 }
