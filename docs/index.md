@@ -10,4 +10,4 @@ The Workspace ONE Access API documentation describes how to utilise the Workspac
 
 ## API Reference
 
-<swagger-ui src="swagger.json"/>
+<swagger-ui src="openapi.json"/>
