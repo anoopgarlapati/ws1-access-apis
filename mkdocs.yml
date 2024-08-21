@@ -148,9 +148,9 @@ markdown_extensions:
 nav:
   - index.md
   - Authentication:
-    - authentication.md
+    - ./authentication.md
   - Audit API:
-    - audit-api.md
+    - ./audit-api.md
   - API Reference:
-    - api-reference.md
+    - ./api-reference.md
     
