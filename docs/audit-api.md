@@ -25,7 +25,6 @@ This endpoint allows to retrieve audit information from Workspace ONE Access. Th
 | action | No (URL) | Filter event types even further by specifying what action was taken when the event was generated |
 
 !!! note
-
    To convert time to epoch milliseconds you can use various wed tools. For example, https://www.epochconverter.com/
 
 ## To query Audit API via shell
