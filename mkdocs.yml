@@ -146,7 +146,7 @@ markdown_extensions:
 
 # Navigation
 nav:
-  - WS1 Access APIs: index.md
-  - Authentication: authentication.md
-  - Audit API: audit-api.md
-  - API Reference: api-reference.md
+  - WS1 Access APIs: 'index.md'
+  - Authentication: 'authentication.md'
+  - Audit API: 'audit-api.md'
+  - API Reference: 'api-reference.md'
