@@ -1,6 +1,6 @@
 # ws1-access-apis
 
-This repo contains the documentation on using the available APIs in the Workspace ONE Access platform (formally Identity Manager)
+This repo contains the documentation on using the available APIs in the Omnissa Access platform (formally Identity Manager)
 This repo is structured to feed into the developer.omnissa.com Developer Portal via the [](https://github.com/euc-dev/euc-dev.github.io) repo using MkDocs published by GitHub Pages. All documentation should be created in MarkDown format with the capabilities of MkDocs and the Material theme in mind.Only pages within the `/docs` folder should be modified within this repo.
 
 This folder will be integrated into the [developer portal repo](https://github.com/euc-dev/euc-dev.github.io) when built using a GitHub Action.

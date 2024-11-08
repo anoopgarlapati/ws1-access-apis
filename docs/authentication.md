@@ -6,7 +6,7 @@ hide:
   - toc
 ---
 
-In order to start querying Workspace ONE Access APIs, you need to obtain access token. To do that, you need to perform the following steps:
+In order to start querying Omnissa Access APIs, you need to obtain access token. To do that, you need to perform the following steps:
 
 1. Register API access to obtain Client Secret
 2. Obtain Access Token
@@ -15,9 +15,9 @@ Let's look into these steps in detail.
 
 ## 1. Register API access
 
-Before accessing the API you need to have a valid API access token. In order to obtain the access token, you first need to create a service client in Workspace ONE Access.
+Before accessing the API you need to have a valid API access token. In order to obtain the access token, you first need to create a service client in Omnissa Access.
 
-* In the Workspace ONE Access admin console, go to `Settings` -> `OAuth 2.0 Management`.  
+* In the Omnissa Access admin console, go to `Settings` -> `OAuth 2.0 Management`.  
 * Click on the `Clients` menu and click `Add Client`.
 * Select `Service Client Token` as the Access type.  
 * Enter a client ID, select `Admin` scope and select appropriate Admin Roles required for accessing the APIs. To be able to execute all APIs, select `Super Admin` role.  
@@ -30,7 +30,7 @@ Example of client secret - `fFjs8tGiloQD5ze4pL42EV6s0mufGrOG`
 
 ## 2. Obtain Access Token
 
-Once you have Client Secret, you can generate access token. Access token will then let you query various Workspace ONE Access API endpoints.
+Once you have Client Secret, you can generate access token. Access token will then let you query various Omnissa Access API endpoints.
 
 **HTTP request**
 
@@ -64,7 +64,7 @@ curl –X POST <your tenant name here> \
 -d 'grant_type=client_credentials'
 ```
 
-Workspace ONE Access will return the following as a response:
+Omnissa Access will return the following as a response:
 
 ```json
 {
@@ -110,7 +110,7 @@ curl –X POST <your tenant name here> \
 -d 'refresh_token=<your token here>'
 ```
 
-Workspace ONE Access will return the following in response:
+Omnissa Access will return the following in response:
 
 ```json
 {"access_token":"<your token here>",

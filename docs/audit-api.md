@@ -6,7 +6,7 @@ hide:
   - toc
 ---
 
-This endpoint allows to retrieve audit information from Workspace ONE Access. This information is typically used to generate information about login activity with Workspace ONE Access, along with retrieving various audit information about SaaS Workspace ONE Access instance.
+This endpoint allows to retrieve audit information from Omnissa Access. This information is typically used to generate information about login activity with Omnissa Access, along with retrieving various audit information about SaaS Omnissa Access instance.
 
 ## HTTP Request
 
@@ -36,7 +36,7 @@ curl -H 'authorization: Bearer <your token here>' \
 <your tenant name here>/analytics/reports/audit?/analytics/reports/audit?fromMillis=1559499975000\&objectType=LOGIN| json_pp
 ```
 
-Workspace ONE Access will return the following as a response:
+Omnissa Access will return the following as a response:
 
 In this example we see 2 events of LOGIN type for the username admin the auth method used is password against local directory.
 
