@@ -24,8 +24,8 @@ This endpoint allows to retrieve audit information from Omnissa Access. This inf
 | objectType | No (URL)| Filter specific types of audit events or affected objects. For details, please see the table below |
 | action | No (URL) | Filter event types even further by specifying what action was taken when the event was generated |
 
-!!! note
-   To convert time to epoch milliseconds you can use various wed tools. For example, https://www.epochconverter.com/
+!!! Note
+    To convert time to epoch milliseconds you can use various wed tools. For example, https://www.epochconverter.com/
 
 ## To query Audit API via shell
 
@@ -115,7 +115,7 @@ Depending on the objectType retrieved and the action filter specified, API can r
 | --- | --- |
 | actorId | The userID of the user who performed the event. In the case of a system event, this the value of this attribute will be null. ActorIds are presented in integer format in the case of a user. In the case of a system service, the return will be null. |
 | actorUserName | The username of the user who performed the event. In the case of a system event, the value of this attribute will be null. Expected values include both usernames of user accounts in vIDM, as well as system services. Ex: `jdoe`. |
-| actorDomain | The domain of the user who performed the event. In the case of a system event, the value of this attribute will be null. In the case of a user generated event, the domain of the user will be returned. Ex: vmware.com |
+| actorDomain | The domain of the user who performed the event. In the case of a system event, the value of this attribute will be null. In the case of a user generated event, the domain of the user will be returned. Ex: acme.com |
 | actorUUid | The UUID of the user who performed the event. Return values will always be in standard UUID format. Ex:`8c2a83a2-a546-4571-b16c-ed11a8f51725` |
 | objectType | ObjectType describes the category of event that was recorded. There are many object types that span both end user activities such as authentication or application launch, and admin activities like entitlements. Please, see the table above the describes various object types. |
 | objectId | ObjectID represents the unique internal identifier of the object being modified or interacted with. Depending on the object name and type, different ID formats may be returned. |
@@ -124,18 +124,17 @@ Depending on the objectType retrieved and the action filter specified, API can r
 | baseType | BaseType represents the type of record being returned. There are two possibilities, **Audit** and **Action**. Audit events indicate changes to the database as a result of the event. Action events are not directly related to database changes. |
 | timeStamp | Time stamp for event in milliseconds UTC since Jan 1, 1970.
 | uuid | Uuid for the specific audit record. This identifier is unique for each record, including multiple instances of the same type of event. Output value is standard UUID format. This value is not particularly useful except when searching for a specific, already known event record. Example UUID: `07b6c947-f025-422f-be2c-3c87b0f3c017` |
-| organizationId | Unique numerical identifier for the VMware Identity Manager tenant. |
-| tenantId | This attribute is the customers tenant identifier. The value should match the prefix of the environment URL in the following format `{tenantId}.vmwareidentity.com`. |
+| organizationId | Unique numerical identifier for the Omnissa Access tenant. |
+| tenantId | This attribute is the customers tenant identifier. The value should match the prefix of the environment URL in the following format `{tenantId}.in.wss.workspaceone.com` for IN region tenants. |
 | sourceIP | This attribute outputs the sourceIP for the machine which issued the request. Values can take on either the IPv4 format. Example IPv4: `168.175.34.12` |
-| authMethods | This attribute can return one or more authentication methods used for the request. The authentication methods returned correspond directly with the auth adapter labels in the VMware Identity Manager admin console. Multiple auth methods will be listed in comma delimited format. Example: "method1", "method2". |
+| authMethods | This attribute can return one or more authentication methods used for the request. The authentication methods returned correspond directly with the auth adapter labels in the Omnissa Access admin console. Multiple auth methods will be listed in comma delimited format. Example: "method1", "method2". |
 
 The available Auth Methods that can be returned as part of Audit API response are listed below:
 
 * Password (AirWatch Connector)
 * Device Compliance (with AirWatch)
-* VMware Verify
 * Mobile SSO (for iOS)
 * Password (Local Directory)
 * Mobile SSO (for Android)
 * Certificate (Cloud Deployment)
-* vIDM Password - Displayed when user authenticates with an external directory using the vIDM connector
+* Password - Displayed when user authenticates with an external directory using the Access connector
