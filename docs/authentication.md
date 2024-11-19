@@ -23,7 +23,7 @@ Before accessing the API you need to have a valid API access token. In order to 
 * Enter a client ID, select `Admin` scope and select appropriate Admin Roles required for accessing the APIs. To be able to execute all APIs, select `Super Admin` role.  
 * Click `Save`
 
-![OAuth2.0 Management Interface](359761764-cfff9bb8-0686-44db-8f64-8236dfe17b30.png)
+![OAuth2.0 Management Interface](oauth2-client-for-api-access.png)
 
 You will get the Shared Secret that you can save to obtain the access token.  
 Example of client secret - `fFjs8tGiloQD5ze4pL42EV6s0mufGrOG`
