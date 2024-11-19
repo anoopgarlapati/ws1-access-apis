@@ -1,22 +1,24 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Workspace ONE Access",
-    "description": "Workspace ONE Access REST API documentation.",
+    "title": "Omnissa Access",
+    "description": "Omnissa Access REST API documentation.",
     "contact": {
-      "url": "http://www.vmware.com/company/contact_sales.html"
+      "url": "https://www.omnissa.com/contact-us/"
     },
     "license": {
-      "name": "Workspace ONE Access Terms of Service",
-      "url": "http://www.vmware.com/download/eula/identity-manager-terms-of-service.html"
+      "name": "Omnissa Access Terms of Service",
+      "url": "https://www.omnissa.com/legal-center/"
     },
-    "version": "Build ede7619a82a790498f4ecca11a28bdfd547e64b8"
+    "version": "latest"
   },
-  "servers": [
-    {
-      "url": "https://localhost:8080/"
-    }
-  ],
+  "servers": [{
+        "url": "https://{api_host}",
+        "variables": {"api_host": {
+            "default": "example.com",
+            "description": "The API host"
+        }}
+  }],
   "tags": [
     {
       "name": "admin"
@@ -1342,7 +1344,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "VMware-AppAuth-Samples-Template"
+            "example": "Access-AppAuth-Samples-Template"
           },
           {
             "name": "user_device",
@@ -1382,7 +1384,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "com.vmware.idm.samples.mobilesso%3A%2F%2Foauth2redirect"
+            "example": "com.wss.samples.mobilesso%3A%2F%2Foauth2redirect"
           },
           {
             "name": "state",
@@ -1442,7 +1444,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "VMware-AppAuth-Samples-Template"
+            "example": "Access-AppAuth-Samples-Template"
           },
           {
             "name": "user_device",
@@ -1482,7 +1484,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "com.vmware.idm.samples.mobilesso%3A%2F%2Foauth2redirect"
+            "example": "com.wss.samples.mobilesso%3A%2F%2Foauth2redirect"
           },
           {
             "name": "state",
@@ -3908,12 +3910,12 @@
           "userinfo_endpoint": {
             "type": "string",
             "description": "URL of the user info endpoint",
-            "example": "https://acme.vmwareidentity.com/SAAS/jersey/manager/api/userinfo"
+            "example": "https://acme.in.wss.workspaceone.com/SAAS/jersey/manager/api/userinfo"
           },
           "jwks_uri": {
             "type": "string",
             "description": "URL of JSON Web Key Set document",
-            "example": "https://acme.vmwareidentity.com/SAAS/API/1.0/REST/auth/token?attribute=publicKey&format=jwks"
+            "example": "https://acme.in.wss.workspaceone.com/SAAS/API/1.0/REST/auth/token?attribute=publicKey&format=jwks"
           },
           "scopes_supported": {
             "type": "array",
@@ -3932,7 +3934,7 @@
           "token_endpoint": {
             "type": "string",
             "description": "URL of the OAuth 2.0 token endpoint",
-            "example": "https://acme.vmwareidentity.com/SAAS/auth/oauthtoken"
+            "example": "https://acme.in.wss.workspaceone.com/SAAS/auth/oauthtoken"
           },
           "id_token_signing_alg_values_supported": {
             "type": "array",
@@ -3958,12 +3960,12 @@
           "authorization_endpoint": {
             "type": "string",
             "description": "URL of the OAuth 2.0 authorization endpoint",
-            "example": "https://acme.vmwareidentity.com/SAAS/auth/oauth2/authorize"
+            "example": "https://acme.in.wss.workspaceone.com/SAAS/auth/oauth2/authorize"
           },
           "issuer": {
             "type": "string",
             "description": "the identifier of the token's issuer. This is identical to the 'iss' Claim value in ID Tokens",
-            "example": "https://acme.vmwareidentity.com/SAAS/auth"
+            "example": "https://acme.in.wss.workspaceone.com/SAAS/auth"
           }
         },
         "description": "The OpenID configuration document as defined by the specification: http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata"
