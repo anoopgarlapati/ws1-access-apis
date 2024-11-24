@@ -1,6 +1,6 @@
 ---
 layout: page
-title: API Endpoints Reference
+title: Omnissa Access API Endpoints Reference
 hide:
   #- navigation
   - toc

@@ -1,6 +1,6 @@
 # Project Information
-site_name: WS1 Access APIs
-site_url: https://euc-dev.github.io/ws1-access-apis/
+site_name: Omnissa Access APIs
+site_url: https://euc-dev.github.io/omnissa-access-apis/
 site_author: Phil Helmling
 site_description: Submodule for developer.omnissa.com
 docs_dir: docs
@@ -146,7 +146,7 @@ markdown_extensions:
 
 # Navigation
 nav:
-  - WS1 Access APIs: 'index.md'
+  - Omnissa Access APIs: 'index.md'
   - Authentication: 'authentication.md'
   - Audit API: 'audit-api.md'
   - API Reference: 'api-reference.md'
