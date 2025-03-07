@@ -2642,16 +2642,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/OAuth2ClientTypeInfo"
                 }
-              },
-              "application/vnd.vmware.horizon.manager.clientcredentialsoauth2client+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuth2ClientTypeInfo"
-                }
-              },
-              "application/vnd.vmware.horizon.manager.classicoauth2client+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuth2ClientTypeInfo"
-                }
               }
             }
           },
