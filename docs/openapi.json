@@ -1883,22 +1883,21 @@
         ]
       }
     },
-    "/SAAS/auth/.well-known/openid-configuration": {
+    "/acs/.well-known/openid-configuration": {
       "get": {
         "tags": [
-          "oauth2",
           "oidc"
         ],
-        "summary": "OpenID Connect discovery endpoint",
+        "summary": "The OpenID Connect discovery endpoint",
         "description": "This endpoint follows the specification defined at http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata. It provides a mechanism for an OpenID Connect Relying Party to discover the End-User's OpenID Provider and obtain information needed to interact with it, including its OAuth 2.0 endpoint locations.",
-        "operationId": "get-getOpenIDConfiguration",
+        "operationId": "getOIDCConfiguration",
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "OpenID configuration document returned successfully.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OpenIDConfiguration"
+                  "$ref": "#/components/schemas/OIDCDiscovery"
                 }
               }
             }
@@ -3746,7 +3745,7 @@
         },
         "description": "The SCIM user resource object. It extends the standard SCIM user resource, see https://tools.ietf.org/html/rfc7643"
       },
-      "OpenIDConfiguration": {
+      "OIDCDiscovery": {
         "required": [
           "authorization_endpoint",
           "id_token_signing_alg_values_supported",
@@ -3758,65 +3757,88 @@
         ],
         "type": "object",
         "properties": {
-          "userinfo_endpoint": {
+          "issuer": {
             "type": "string",
-            "description": "URL of the user info endpoint",
-            "example": "https://acme.in.wss.workspaceone.com/SAAS/jersey/manager/api/userinfo"
+            "description": "The identifier of the token's issuer. This is identical to the 'iss' Claim value in ID tokens.",
+            "example": "https://acme.workspaceoneaccess.com/SAAS/auth"
           },
-          "jwks_uri": {
+          "authorization_endpoint": {
             "type": "string",
-            "description": "URL of JSON Web Key Set document",
-            "example": "https://acme.in.wss.workspaceone.com/SAAS/API/1.0/REST/auth/token?attribute=publicKey&format=jwks"
-          },
-          "scopes_supported": {
-            "type": "array",
-            "description": "list of the OAuth 2.0 scope values that Workspace ONE Access supports",
-            "items": {
-              "type": "string"
-            }
-          },
-          "subject_types_supported": {
-            "type": "array",
-            "description": "list of the Subject Identifier types that Workspace ONE Access supports",
-            "items": {
-              "type": "string"
-            }
+            "description": "The URL of the OAuth 2.0 Authorization endpoint",
+            "example": "https://acme.workspaceoneaccess.com/acs/authorize"
           },
           "token_endpoint": {
             "type": "string",
-            "description": "URL of the OAuth 2.0 token endpoint",
-            "example": "https://acme.in.wss.workspaceone.com/SAAS/auth/oauthtoken"
+            "description": "The URL of the OAuth 2.0 Token endpoint",
+            "example": "https://acme.workspaceoneaccess.com/acs/token"
           },
-          "id_token_signing_alg_values_supported": {
+          "jwks_uri": {
+            "type": "string",
+            "description": "The URL of JSON Web Key Set document",
+            "example": "https://acme.workspaceoneaccess.com/acs/jwks"
+          },
+          "subject_types_supported": {
             "type": "array",
-            "description": "list of the JWS signing algorithms supported for the ID Token to encode the Claims in a JWT",
+            "description": "A list of the Subject identifier types that Omnissa Access supports",
             "items": {
-              "type": "string"
+              "type": "string",
+              "enum": ["pairwise", "public"]
             }
           },
           "response_types_supported": {
             "type": "array",
-            "description": "list of the OAuth 2.0 response_type values that Workspace ONE Access supports",
+            "description": "A list of the OAuth 2.0 response_type values that Omnissa Access supports",
             "items": {
-              "type": "string"
+              "type": "string",
+              "description": "A list of the OAuth 2.0 response_type values that Omnissa Access supports"
             }
+          },
+          "id_token_signing_alg_values_supported": {
+            "type": "array",
+            "description": "A list of the JWS signing algorithms supported for the ID Token to encode the Claims in a JWT",
+            "items": {
+              "type": "string",
+              "description": "A list of the JWS signing algorithms supported for the ID Token to encode the Claims in a JWT"
+            }
+          },
+          "token_endpoint_auth_methods_supported": {
+            "type": "array",
+            "description": "A list of the auth methods supported by OAuth 2.0 token endpoint",
+            "items": {
+              "type": "string",
+              "description": "A list of the auth methods supported by OAuth 2.0 token endpoint"
+            }
+          },
+          "userinfo_endpoint": {
+            "type": "string",
+            "description": "The URL of the user info endpoint",
+            "example": "https://acme.workspaceoneaccess.com/acs/userinfo"
+          },
+          "end_session_endpoint": {
+            "type": "string",
+            "description": "The URL at the OP to which an RP can perform a redirect to request that the end-user be logged out at the OP",
+            "example": "https://acme.workspaceoneaccess.com/acs/openid/logout"
           },
           "claims_supported": {
             "type": "array",
-            "description": "list of the claims Workspace ONE Access may be able to supply values for. Note that for privacy or other reasons, this might not be an exhaustive list",
+            "description": "A list of the claims Omnissa Access may be able to supply values for. Note that for privacy or other reasons, this might not be an exhaustive list.",
             "items": {
-              "type": "string"
+              "type": "string",
+              "description": "A list of the claims Omnissa Access may be able to supply values for. Note that for privacy or other reasons, this might not be an exhaustive list."
             }
           },
-          "authorization_endpoint": {
-            "type": "string",
-            "description": "URL of the OAuth 2.0 authorization endpoint",
-            "example": "https://acme.in.wss.workspaceone.com/SAAS/auth/oauth2/authorize"
+          "scopes_supported": {
+            "type": "array",
+            "description": "A list of the OAuth 2.0 scope values that Omnissa Access supports",
+            "items": {
+              "type": "string",
+              "description": "A list of the OAuth 2.0 scope values that Omnissa Access supports"
+            }
           },
-          "issuer": {
+          "revocation_endpoint": {
             "type": "string",
-            "description": "the identifier of the token's issuer. This is identical to the 'iss' Claim value in ID Tokens",
-            "example": "https://acme.in.wss.workspaceone.com/SAAS/auth"
+            "description": "The URL of the OAuth 2.0 revocation endpoint",
+            "example": "https://acme.workspaceoneaccess.com/acs/revoke"
           }
         },
         "description": "The OpenID configuration document as defined by the specification: http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata"
